@@ -9,7 +9,7 @@
  * @author Benny
  */
 
-public class Eternity{
+public class Var{
 
 public static String loginType="本类默认设置无权限";
 

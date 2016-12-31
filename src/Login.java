@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Benny
+ * @author moon
  */
 
 
@@ -31,7 +31,9 @@ public class Login extends javax.swing.JFrame {
     
     public Login() {
         initComponents();
+        //@moon:这里是初始化代码,负责设置应用程序的icon
         setIconImage(Toolkit.getDefaultToolkit().getImage("yinxian.png"));
+        //@moon:这里负责加载java derby的驱动程序
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
         } catch (ClassNotFoundException e) {
@@ -64,7 +66,8 @@ public class Login extends javax.swing.JFrame {
 
         jLabel2.setText("密码");
 
-        jLabel3.setFont(new java.awt.Font("华文行楷", 0, 36)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("幼圆", 0, 36)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 204, 0));
         jLabel3.setText("超市管理系统");
 
         jButton1.setText("登陆");
@@ -94,7 +97,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(57, 57, 57))
+                .addGap(84, 84, 84))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,8 +122,8 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
 
-        //Eternity.loginType="123";
-        //login
+        //@moon:登陆代码，创建con、sql这三个对象，连接到market数据库
+        //@moon:从admin表中用where做条件查询
         try {
             String url = "jdbc:derby:market;create=true";   //重要
             Connection con = DriverManager.getConnection(url);
@@ -130,15 +133,16 @@ public class Login extends javax.swing.JFrame {
             String loginAuth = "select * from admin where "
                     + "aUser='" + loginUserName + "' and aPassword='" + loginPasswd + "'";
             ResultSet rs = sql.executeQuery(loginAuth);
-
+            //@moon:如果查询到了结果，那么就把Var中的这个变量设置成用户名（好愚蠢）
             if (rs.next()) {
-                Eternity.loginType = rs.getString(1).trim();
+                Var.loginType = rs.getString(1).trim();
+                //@moon:隐藏本窗口，使用Market类创建新的对象并显示。
                 this.setVisible(false);
                 Market newWindow = new Market();
                 newWindow.setVisible(true);
 
         //检查是否有管理员权限
-                if (Eternity.loginType.equals("0")) {
+                if (Var.loginType.equals("0")) {
                     System.out.println("管理员权限");
                 } else {
                     System.out.println("普通权限");

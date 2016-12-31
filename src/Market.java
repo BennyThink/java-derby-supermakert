@@ -18,7 +18,7 @@ import javax.swing.ImageIcon;
  */
 /**
  *
- * @author Benny
+ * @author moon
  */
 public class Market extends javax.swing.JFrame {
 
@@ -27,8 +27,8 @@ public class Market extends javax.swing.JFrame {
      */
     public Market() {
         initComponents();
+        //@moon:icon与驱动
         setIconImage(Toolkit.getDefaultToolkit().getImage("huaji.png"));
-        //driver
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
         } catch (ClassNotFoundException e) {
@@ -67,7 +67,6 @@ public class Market extends javax.swing.JFrame {
         for (int i = 0; i <= 99; i++) {
             oldDbInfo[i] = new dbProduct();
         }
-        //好吧这数组可创建完了
         oldDbInfo[0].pID = "类的对象数组创建成功";
        // System.out.println(oldDbInfo[0].pID);
 
@@ -127,15 +126,14 @@ public class Market extends javax.swing.JFrame {
         // System.out.println(oldDbInfo[0].pID + "displayed");
         //System.out.println(oldDbInfo[0].pName + "displayed");
 
-        ///////////////////////////////复制代码结束/////////////////////////////////////
-        //logintype
         
-        if (Eternity.loginType.equals("0")) {
+        //logintype
+        //@moon:管理员
+        if (Var.loginType.equals("0")) {
             System.out.println("管理员");
             jPanel1.remove(img1);
         } else {
             //jButton1.setEnabled(false);
-            //你他丫的究竟怎么移除监听器啊
             //jButton1.removeActionListener(null);
             jPanel1.removeAll();
             jPanel1.add(jLabelWarning);
@@ -782,7 +780,7 @@ public class Market extends javax.swing.JFrame {
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
         // TODO add your handling code here:有用吗？
-        //
+        //@moon:这里是最后搞笑的啦~~
         Image img = null;
 
         if (jComboBox1.getSelectedItem() == "程序说明") {
@@ -809,7 +807,8 @@ public class Market extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
-        // TODO add your handling code here:删除用户
+        // TODO add your handling code here:
+        //@moon:删除用户
         //先显示出来
         int i = 0;
         try {
@@ -976,7 +975,8 @@ public class Market extends javax.swing.JFrame {
                 ar.setValueAt(pPrice2, 0, 6);
                 //删除代码应该写在这里，照样try catch
                 //如果成功的查询到了信息，那么先询问
-                int n = JOptionPane.showConfirmDialog(this, "你要删除这条记录吗", "删除提示", JOptionPane.YES_NO_OPTION);
+                int n = JOptionPane.showConfirmDialog
+        (this, "你要删除这条记录吗", "删除提示", JOptionPane.YES_NO_OPTION);
                 if (n == JOptionPane.YES_OPTION) //用户同意删除，在这里写入删除的代码！
                 {
                     try {
@@ -1068,7 +1068,8 @@ public class Market extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
-        // TODO add your handling code here:修改信息，这也是最困难的部分了
+        // TODO add your handling code here:
+        //@moon:修改信息，这也是最困难的部分了
         //修改之前已经jTable已经有了内容了。所以就直接以ID为准每个都update
         //在这之前检测行尾
         int updateResult = 0;
