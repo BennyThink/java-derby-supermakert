@@ -3,7 +3,8 @@ A java derby database demo program.
 明月你先看我
 ====
 选择这个分支，我懒得改readme了，至少……你的英语水平应该足够看懂这个readme吧<br>
-默认登陆的账号密码是moon/***REMOVED***,下面有详细说明。一不小心我就明文存储密码了，不像我啊/(ㄒoㄒ)/~~
+默认登陆的账号密码是moon/***REMOVED***,下面有详细说明。一不小心我就明文存储密码了，不像我啊/(ㄒoㄒ)/~<br>
+加了一些注释，我觉得应该没什么问题的，本来注释也写的很完整！
 What's this?
 ====
 This is a java program during my Course Exercise Design. As the title has said, it's a demo with java derby database support.<br>
