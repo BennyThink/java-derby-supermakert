@@ -1,9 +1,9 @@
 # java-derby-supermakert
 A java derby database demo program.
-Ming***REMOVED*** Be advised
+明月你先看我
 ====
-Choose this branch.
-
+选择这个分支，我懒得改readme了，至少……你的英语水平应该足够看懂这个readme吧<br>
+默认登陆的账号密码是moon/***REMOVED***,下面有详细说明。一不小心我就明文存储密码了，不像我啊/(ㄒoㄒ)/~~
 What's this?
 ====
 This is a java program during my Course Exercise Design. As the title has said, it's a demo with java derby database support.<br>
@@ -37,7 +37,7 @@ Don't forget to copy the database dirctory to the exact directory where the prog
 
 I cannot login/what's the default admin password?
 ====
-Default username and passowrd is Betty/960718 and Bunny/111111.<br>
+Default username and passowrd is moon/***REMOVED*** and Bunny/111111.<br>
 Don't ask me why there's no "Benny".
 
 How could I run my own SQL command?
