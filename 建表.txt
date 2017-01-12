@@ -4,10 +4,10 @@ connect 'jdbc:derby:market;create=true';
 
 create table product(pID char(10) primary key, pName char(20),pProducer char(20),pOrigin char(10),pDate char(20),pPrice1 char(20),pPrice2 char(20));
 
-create table admin(aID char(1),aUser char(10) primary key,aPassword char(20));
+create table admin(aID char(1),aUser char(10) primary key,aPassword char(40));
 
-insert into admin values('0','moon','***REMOVED***');
-insert into admin values('1','Bunny','111111');
+insert into admin values('0','moon','956e3f6be3d2792bd93efc7fdb3d19941ca20e43');
+insert into admin values('1','Bunny','62221f301a1c106d1f6ec9e982c60fcab3d8aad0');
 
 insert into product values('1','øµ ¶∏µ≈£»‚√Ê','Õ≥“ª','…Ú—Ù','2016-3-5','2','3');
 insert into product values('2','≈£ƒÃ','√…≈£','…Ú—Ù','2016-4-5','2','4');

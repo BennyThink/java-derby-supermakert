@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /*
@@ -12,35 +14,29 @@ import javax.swing.JOptionPane;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author moon
  */
-
-
-
-
-
-
-
 public class Login extends javax.swing.JFrame {
+
     /**
      * Creates new form Login
      */
-    
+
     public Login() {
         initComponents();
         //@moon:这里是初始化代码,负责设置应用程序的icon
         setIconImage(Toolkit.getDefaultToolkit().getImage("yinxian.png"));
+        //@moon:居中显示
+        setLocationRelativeTo(null);
         //@moon:这里负责加载java derby的驱动程序
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
         } catch (ClassNotFoundException e) {
             System.out.println("加载驱动程序失败!");
         }
-        
-       
+
     }
 
     /**
@@ -56,11 +52,12 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         jPasswordField1 = new javax.swing.JPasswordField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("超市管理系统登录 - 阴险版");
+        setResizable(false);
 
         jLabel1.setText("用户名");
 
@@ -128,10 +125,11 @@ public class Login extends javax.swing.JFrame {
             String url = "jdbc:derby:market;create=true";   //重要
             Connection con = DriverManager.getConnection(url);
             Statement sql = con.createStatement();
+            getSHA1 sha = new getSHA1();
             String loginUserName = jTextField1.getText().trim();
-            String loginPasswd = jPasswordField1.getText().trim();
+            String loginPasswd = sha.getSHA(jPasswordField1.getText().trim());
             String loginAuth = "select * from admin where "
-                    + "aUser='" + loginUserName + "' and aPassword='" + loginPasswd + "'";
+                + "aUser='" + loginUserName + "' and aPassword='" + loginPasswd + "'";
             ResultSet rs = sql.executeQuery(loginAuth);
             //@moon:如果查询到了结果，那么就把Var中的这个变量设置成用户名（好愚蠢）
             if (rs.next()) {
@@ -141,7 +139,7 @@ public class Login extends javax.swing.JFrame {
                 Market newWindow = new Market();
                 newWindow.setVisible(true);
 
-        //检查是否有管理员权限
+                //检查是否有管理员权限
                 if (Var.loginType.equals("0")) {
                     System.out.println("管理员权限");
                 } else {
@@ -154,7 +152,7 @@ public class Login extends javax.swing.JFrame {
                 con.close();
             } else {
                 JOptionPane.showMessageDialog(null, "用户名不存在或者密码错误", "提示！",
-                        JOptionPane.YES_NO_OPTION);
+                    JOptionPane.YES_NO_OPTION);
 
             }
             jTextField1.setText("");
@@ -163,12 +161,9 @@ public class Login extends javax.swing.JFrame {
         } catch (SQLException g) {
             System.out.println("E Code" + g.getErrorCode());
             System.out.println("E M" + g.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
-
-
-
 
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton1MouseClicked

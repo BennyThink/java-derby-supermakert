@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 
@@ -27,6 +29,8 @@ public class Market extends javax.swing.JFrame {
      */
     public Market() {
         initComponents();
+        //@moon:居中显示
+        setLocationRelativeTo(null);
         //@moon:icon与驱动
         setIconImage(Toolkit.getDefaultToolkit().getImage("huaji.png"));
         try {
@@ -231,6 +235,7 @@ public class Market extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("超市管理系统 - 滑稽版");
+        setResizable(false);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -917,8 +922,10 @@ public class Market extends javax.swing.JFrame {
             String url = "jdbc:derby:market;create=true";   //重要
             Connection con = DriverManager.getConnection(url);
             Statement sql = con.createStatement();
+            //@moon:sha1
+            getSHA1 sha = new getSHA1();
             String regUname = jTextReg.getText().trim();
-            String regPasswd = jPasswdReg.getText().trim();
+            String regPasswd = sha.getSHA(jPasswdReg.getText().trim());
             String reg = null;
             if (jCheckBox1.isSelected()) {
                 reg = "insert into admin values('0','" + regUname + "','" + regPasswd + "')";
@@ -942,6 +949,8 @@ public class Market extends javax.swing.JFrame {
         } catch (SQLException g) {
             System.out.println("E Code" + g.getErrorCode());
             System.out.println("E M" + g.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButton6MouseClicked
