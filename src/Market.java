@@ -46,17 +46,14 @@ public class Market extends javax.swing.JFrame {
                 ar.setValueAt("", i, j);
             }
         }
-
         //初始化jtable
         for (int i = 0; i <= 99; i++) {
             for (int j = 0; j < 7; j++) {
                 jTable1.setValueAt("", i, j);
             }
         }
-        //这段代码是干嘛的？从某个表中读取数据，并存放到类中。///////////////////
-        //////////////////////////////////////////////////////////////////////
+        //从某个表中读取数据，并存放到类中。
         class dbProduct {
-
             String pID = null;
             String pName = null;
             String pProducer = null;
@@ -72,11 +69,10 @@ public class Market extends javax.swing.JFrame {
             oldDbInfo[i] = new dbProduct();
         }
         oldDbInfo[0].pID = "类的对象数组创建成功";
-       // System.out.println(oldDbInfo[0].pID);
-
-        //读取吧    
+      
+        //读取 
         try {
-            String url = "jdbc:derby:market;create=true";    //这里
+            String url = "jdbc:derby:market;create=true";   
             Connection con = DriverManager.getConnection(url);
             String s = "select * from product ";
             Statement sql = con.createStatement();
@@ -110,11 +106,10 @@ public class Market extends javax.swing.JFrame {
         //现在全部商品都在jTable中
         //那么就复制到所谓的“结构数组”中！
         // ar.getValueAt();
-        //ar.getRowCount();//JTable行数这个就是哦！好吧就是100行……
+        //ar.getRowCount();JTable行数
         // ar.getColumnCount();//列数
-        //  oldDbInfo[0].pID=String.valueOf(ar.getRowCount());
+        //oldDbInfo[0].pID=String.valueOf(ar.getRowCount());
         oldDbInfo[0].pID = ar.getValueAt(0, 0).toString();
-        //System.out.println(oldDbInfo[0].pID + "displayed");
         for (int row = 0; row <= 99; row++) {
             oldDbInfo[row].pID = ar.getValueAt(row, 0).toString();
             oldDbInfo[row].pName = ar.getValueAt(row, 1).toString();
@@ -123,16 +118,10 @@ public class Market extends javax.swing.JFrame {
             oldDbInfo[row].pDate = ar.getValueAt(row, 4).toString();
             oldDbInfo[row].pPrice1 = ar.getValueAt(row, 5).toString();
             oldDbInfo[row].pPrice2 = ar.getValueAt(row, 6).toString();
-
         }
-        //好吧我想应该是都获取完了并复制在oldDbInfo中了吧
-        //输出几个试试
-        // System.out.println(oldDbInfo[0].pID + "displayed");
-        //System.out.println(oldDbInfo[0].pName + "displayed");
 
-        
         //logintype
-        //@moon:管理员
+        //@moon:管理员权限判断
         if (Var.loginType.equals("0")) {
             System.out.println("管理员");
             jPanel1.remove(img1);
@@ -149,7 +138,6 @@ public class Market extends javax.swing.JFrame {
             jPanel2.remove(jButton3);
             jPanel2.remove(jButton4);
             jPanel2.remove(jButton5);
-
             jPanel6.remove(jButton6);
             jPanel6.remove(jLabel2);
             jPanel6.remove(jLabel3);
@@ -188,7 +176,6 @@ public class Market extends javax.swing.JFrame {
             System.out.println("E M" + g.getMessage());
             System.out.println("全部用户显示失败");
         }
-
     }
 
     /**
@@ -784,8 +771,7 @@ public class Market extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-        // TODO add your handling code here:有用吗？
-        //@moon:这里是最后搞笑的啦~~
+       //@moon:这里是最后搞笑的啦~~
         Image img = null;
 
         if (jComboBox1.getSelectedItem() == "程序说明") {
@@ -801,6 +787,7 @@ public class Market extends javax.swing.JFrame {
             jLabel5.setIcon(new ImageIcon(img));
             jLabel5.setText("");
         }
+        
         if (jComboBox1.getSelectedItem() == "其实我才是开发者") {
             jLabelHelp.setText("楼上不是开发者，Bunny - 小兔子 才是！");
             img = Toolkit.getDefaultToolkit().createImage("guai.png");
@@ -808,11 +795,9 @@ public class Market extends javax.swing.JFrame {
             jLabel5.setText("");
         }
 
-
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
-        // TODO add your handling code here:
         //@moon:删除用户
         //先显示出来
         int i = 0;
@@ -842,7 +827,6 @@ public class Market extends javax.swing.JFrame {
             System.out.println("全部用户显示失败");
         }
         //获取当前游标什么的,选中第二列，getSelectedRow()会为1
-        //System.out.println(jTable2.getSelectedRow());
         //删除
         //取得对应的0或者1
         // jTable2.getValueAt(0,jTable2.getSelectedRow());
@@ -855,7 +839,6 @@ public class Market extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "都是管理员，为何要相爱相杀", "爱即是恨", JOptionPane.ERROR_MESSAGE);
         } else {
             //////////////////////////////////////////
-
             try {
                 String url = "jdbc:derby:market;create=true";    //这里
                 Connection con = DriverManager.getConnection(url);
@@ -884,8 +867,7 @@ public class Market extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8MouseClicked
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
-        // TODO add your handling code here:显示用户
-
+        // 显示用户
         int i = 0;
         try {
             String url = "jdbc:derby:market;create=true";    //这里
@@ -916,8 +898,7 @@ public class Market extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7MouseClicked
 
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
-        // TODO add your handling code here:新增管理员
-
+        // 新增管理员
         try {
             String url = "jdbc:derby:market;create=true";   //重要
             Connection con = DriverManager.getConnection(url);
@@ -937,11 +918,9 @@ public class Market extends javax.swing.JFrame {
             if (regRes == 1) {
                 JOptionPane.showMessageDialog(rootPane, "注册成功", "提示", WIDTH);
                 con.close();
-
             } else {
                 JOptionPane.showMessageDialog(null, "注册失败", "提示！",
                         JOptionPane.YES_NO_OPTION);
-
             }
             jTextReg.setText("");
             jPasswdReg.setText("");
@@ -956,7 +935,7 @@ public class Market extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6MouseClicked
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
-        // TODO add your handling code here:删除商品
+        // 删除商品
         //需要做的事情是，先查询出来显示在Table中，然后问用户是否要删除
         //再根据返回值决定操作
         try {
@@ -1029,7 +1008,7 @@ public class Market extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5MouseClicked
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
-        // TODO add your handling code here:查询指定商品
+        // 查询指定商品
         //全部清空
         for (int i = 0; i <= 99; i++) {
             for (int j = 0; j < 7; j++) {
@@ -1060,7 +1039,6 @@ public class Market extends javax.swing.JFrame {
                 ar.setValueAt(pDate, 0, 4);
                 ar.setValueAt(pPrice1, 0, 5);
                 ar.setValueAt(pPrice2, 0, 6);
-
             } else {
                 JOptionPane.showMessageDialog(null, "您输入的编号不存在，请重新输入",
                         "输入错误", JOptionPane.YES_NO_OPTION);
@@ -1077,7 +1055,6 @@ public class Market extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
-        // TODO add your handling code here:
         //@moon:修改信息，这也是最困难的部分了
         //修改之前已经jTable已经有了内容了。所以就直接以ID为准每个都update
         //在这之前检测行尾
@@ -1096,7 +1073,6 @@ public class Market extends javax.swing.JFrame {
                         + "',pPrice2='" + ar.getValueAt(i, 6).toString().trim()
                         + "' where pID='" + ar.getValueAt(i, 0).toString().trim() + "'";
                 // System.out.println(updateMainStr);
-                /////////////////////当成一般的代码//////////////////////
 
                 try {
                     String url = "jdbc:derby:market;create=true";
@@ -1125,13 +1101,12 @@ public class Market extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "修改失败", "信息", JOptionPane.ERROR_MESSAGE);
         }
-        //这合成的字符串是没问题的耶！
+
 
     }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        // TODO add your handling code here:显示全部的库存代码
-
+        // 显示全部的库存代码
         int i = 0;
         String count = "xx";
         try {
@@ -1170,10 +1145,9 @@ public class Market extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // TODO add your handling code here:入库管理，插入记录。
+        // 入库管理，插入记录。
         //这次要做的是一次性添加多行的内容
         //首先就要确定用户输入了几行，以每一行的ID为准，循环获取。
-
         //jTable1.getValueAt(0, 0).toString();
         //inputLines=1是用户输入了一行。
         //jTable1.getValueAt(99, 0).toString();
@@ -1214,7 +1188,6 @@ public class Market extends javax.swing.JFrame {
                 sql.setString(6, a[5].trim());
                 sql.setString(7, a[6].trim());
                 multiResult = sql.executeUpdate();
-
                 con.close();
             } catch (SQLException exp) {
                 JOptionPane.showMessageDialog(null, "" + exp, "消息对话框", JOptionPane.WARNING_MESSAGE);

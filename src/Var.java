@@ -6,12 +6,10 @@
 
 /**
  *
- * @author Benny
+ * @author moon
  */
 
-public class Var{
+public class Var {
 
-public static String loginType="本类默认设置无权限";
-
-
+    public static String loginType = "本类默认设置无权限";
 }
