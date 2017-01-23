@@ -24,12 +24,14 @@ import javax.swing.ImageIcon;
  */
 public class Market extends javax.swing.JFrame {
 
+    public String  permission;
     /**
      * Creates new form Market
      */
-    public Market() {
+    public Market(String ss) {
         initComponents();
         //@moon:居中显示
+        permission=ss;
         setLocationRelativeTo(null);
         //@moon:icon与驱动
         setIconImage(Toolkit.getDefaultToolkit().getImage("huaji.png"));
@@ -122,8 +124,9 @@ public class Market extends javax.swing.JFrame {
 
         //logintype
         //@moon:管理员权限判断
-        if (Var.loginType.equals("0")) {
-            System.out.println("管理员");
+       System.out.println("sssssss "+permission);
+        if ("0".equals(permission)) {
+            System.out.println("管理员23333");
             jPanel1.remove(img1);
         } else {
             //jButton1.setEnabled(false);
@@ -1204,6 +1207,7 @@ public class Market extends javax.swing.JFrame {
 
     private void img1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_img1MouseClicked
         // 滑稽
+         //System.out.println(this.permission+"  sssss");
         JOptionPane.showMessageDialog(rootPane, "谁让你点了？", "滑稽在此", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_img1MouseClicked
 
@@ -1244,7 +1248,7 @@ public class Market extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Market().setVisible(true);
+                new Market(null).setVisible(true);
             }
         });
     }

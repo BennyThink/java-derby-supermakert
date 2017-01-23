@@ -14,6 +14,11 @@ import javax.swing.JOptionPane;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+//@moon: 请注意：这里每执行一次sql语句，都要经历创建连接等步骤，效率十分低；
+//按照正常的道理应该把数据库操作作为一个类，然后接受SQL语句作为查询条件
+//可能会用到重载
+
 /**
  *
  * @author moon
@@ -129,18 +134,20 @@ public class Login extends javax.swing.JFrame {
             String loginAuth = "select * from admin where "
                 + "aUser='" + loginUserName + "' and aPassword='" + loginPasswd + "'";
             ResultSet rs = sql.executeQuery(loginAuth);
-            //@moon:如果查询到了结果，那么就把Var中的这个变量设置成用户名（好愚蠢）
             if (rs.next()) {
-                Var.loginType = rs.getString(1).trim();
+                String loginType = rs.getString(1).trim();
                 //@moon:隐藏本窗口，使用Market类创建新的对象并显示。
                 this.setVisible(false);
-                Market newWindow = new Market();
+                Market newWindow = new Market(loginType);
+                
                 newWindow.setVisible(true);
-
+                             
                 //检查是否有管理员权限
-                if (Var.loginType.equals("0")) {
+                if (loginType.equals("0")) {
+                    //newWindow.permission="0";
                     System.out.println("管理员权限");
                 } else {
+                    //newWindow.permission="1";
                     System.out.println("普通权限");
                     JOptionPane.showMessageDialog(rootPane, "普通用户权限，将只能浏览", "提示", WIDTH);
                     //限制某些控件的可用性

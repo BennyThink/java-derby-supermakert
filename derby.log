@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Mon Jan 23 11:41:38 CST 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0159-c96a-1949-00000319cf20 
+on database directory F:\GitHub\java-derby-supermakert\market with class loader sun.misc.Launcher$ExtClassLoader@3d50528d 
+Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_74/jre/lib/ext/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_74-b02
+user.dir=F:\GitHub\java-derby-supermakert
+os.name=Windows 7
+os.arch=amd64
+os.version=6.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

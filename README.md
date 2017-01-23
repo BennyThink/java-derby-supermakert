@@ -2,9 +2,17 @@
 A java derby database demo program.
 明月你先看我
 ====
-选择这个分支，我懒得改readme了，至少……你的英语水平应该足够看懂这个readme吧<br>
-默认登陆的账号密码是moon/***REMOVED***,下面有详细说明。<br>
-加了一些注释，我觉得应该没什么问题的，本来注释也写的很完整！
+选择这个分支，至少你的英语水平应该足够看懂这个readme吧<br>
+默认登陆的账号密码是moon/***REMOVED***,Bunny/***REMOVED***<br>
+这个程序的代码效率非常非常低，不建议你以此为模板进行学习！
+一些目录的说明：
+* dist中为jar文件
+* src为由NetBeans生成的源代码
+* market为数据库文件
+* 所有图片存在于“图片文件”中
+* 可手动编译的  可以使用命令行`javac  Login.java`来编译运行
+
+
 What's this?
 ====
 This is a java program during my Course Exercise Design. As the title has said, it's a demo with java derby database support.<br>
