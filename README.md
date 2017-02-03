@@ -6,11 +6,14 @@ A java derby database demo program.
 选择***REMOVED***分支，至少你的英语水平应该足够看懂这个readme吧
 默认登陆的账号密码是moon/***REMOVED***,Bunny/***REMOVED***
 
-一些目录的说明：
+一些目录的说明（dist目录需要你手动构建才会有）：
 * dist中为jar文件
 * dist中的javadoc为文档，你可以参考文档来“二次开发”
 * src为由NetBeans生成的源代码
 * market为数据库文件
+
+## 开发工具 ##
+NetBeans + JDK8u74 (1.8.0_74)
 
 ## 思想 ##
 我今天给它大改，改成了比较纯正的OOP模式，虽说写的不咋样，但是也算得上足够参考能让你迈出打败“见类死”的第一步。
@@ -21,8 +24,7 @@ A java derby database demo program.
 
 所有的数据库查询操作都是使用DBUtil类中的对应方法，而不是每个事件都经历建立连接-查询步骤。
 
-美中不足的是，数据库要跟着jar（或者是NetBeans工程目录）走，解决方法也很简单，在`DBUtil`的构造函数中，取消那段注释就行了。缺点是会影响一点点程序启动的速度（需要构造嘛！）
-
+美中不足的是，数据库要跟着jar（或者是NetBeans工程目录）走，解决方法也很简单，在`DBUtil`的构造方法中，取消那段注释就行了。缺点是会影响一点点程序启动的速度（需要构造嘛！）
 
 ## 数据库建表语句 ##
 ```
@@ -42,6 +44,8 @@ insert into product values('3','酸奶','统二','大连','2016-3-5','2','3');
 insert into product values('4','冰红茶','雪公司','沈阳','2015-3-5','4','5');
 insert into product values('5','冰绿茶','可口可乐公司','沈阳','2016-6-5','5','6');
 ```
+
+
 
 # 原始Readme #
 
