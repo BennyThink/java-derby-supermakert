@@ -1,45 +1,39 @@
-
-import java.awt.Toolkit;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package ***REMOVED***.main;
 
-//@moon: 请注意：这里每执行一次sql语句，都要经历创建连接等步骤，效率十分低；
-//按照正常的道理应该把数据库操作作为一个类，然后接受SQL语句作为查询条件
-//可能会用到重载
+import ***REMOVED***.util.getSHA1;
+import java.awt.Toolkit;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import ***REMOVED***.util.DBUtil;
+
 
 /**
  *
  * @author moon
  */
 public class Login extends javax.swing.JFrame {
-
+    
+    //@moon:成员变量
+    private final DBUtil LoginOP = new DBUtil();
+    private final getSHA1 sha = new getSHA1();
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
-        //@moon:这里是初始化代码,负责设置应用程序的icon
-        setIconImage(Toolkit.getDefaultToolkit().getImage("yinxian.png"));
+        //@moon:这里是初始化代码
         //@moon:居中显示
         setLocationRelativeTo(null);
         //@moon:这里负责加载java derby的驱动程序
-        try {
-            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("加载驱动程序失败!");
-        }
+
 
     }
 
@@ -60,6 +54,7 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("超市管理系统登录 - 阴险版");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/moon/***REMOVED***/images/guai.png")));
         setResizable(false);
 
         jLabel1.setText("用户名");
@@ -84,33 +79,35 @@ public class Login extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(57, 57, 57)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                            .addComponent(jPasswordField1))))
-                .addContainerGap(68, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(57, 57, 57)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                    .addComponent(jPasswordField1))
+                .addContainerGap(185, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(84, 84, 84))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(84, 84, 84))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(21, 21, 21)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
-                .addComponent(jButton1)
-                .addGap(21, 21, 21)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -124,51 +121,41 @@ public class Login extends javax.swing.JFrame {
 
         //@moon:登陆代码，创建con、sql这三个对象，连接到market数据库
         //@moon:从admin表中用where做条件查询
+        String loginUserName = jTextField1.getText().trim();
+        String loginPasswd = sha.getSHA(jPasswordField1.getText());
+        String loginAuth = "select * from admin where "
+            + "aUser='" + loginUserName + "' and aPassword='" + loginPasswd + "'";
+
+        ResultSet LoginRs;
         try {
-            String url = "jdbc:derby:market;create=true";
-            Connection con = DriverManager.getConnection(url);
-            Statement sql = con.createStatement();
-            getSHA1 sha = new getSHA1();
-            String loginUserName = jTextField1.getText().trim();
-            String loginPasswd = sha.getSHA(jPasswordField1.getText().trim());
-            String loginAuth = "select * from admin where "
-                + "aUser='" + loginUserName + "' and aPassword='" + loginPasswd + "'";
-            ResultSet rs = sql.executeQuery(loginAuth);
-            if (rs.next()) {
-                String loginType = rs.getString(1).trim();
-                //@moon:隐藏本窗口，使用Market类创建新的对象并显示。
-                this.setVisible(false);
+            LoginRs = LoginOP.select(loginAuth);
+            if (LoginRs.next()) {
+                String loginType = LoginRs.getString(1).trim();
+                //@moon:销毁本溪窗口，使用Market类创建新的对象并显示。
+                this.dispose();
                 Market newWindow = new Market(loginType);
-                
                 newWindow.setVisible(true);
-                             
                 //检查是否有管理员权限
                 if (loginType.equals("0")) {
-                    //newWindow.permission="0";
                     System.out.println("管理员权限");
                 } else {
-                    //newWindow.permission="1";
                     System.out.println("普通权限");
                     JOptionPane.showMessageDialog(rootPane, "普通用户权限，将只能浏览", "提示", WIDTH);
-                    //限制某些控件的可用性
                 }
-                con.close();
+
             } else {
                 JOptionPane.showMessageDialog(null, "用户名不存在或者密码错误", "提示！",
                     JOptionPane.YES_NO_OPTION);
-
             }
-            jTextField1.setText("");
+
             jPasswordField1.setText("");
 
-        } catch (SQLException g) {
-            System.out.println("E Code" + g.getErrorCode());
-            System.out.println("E M" + g.getMessage());
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-// TODO add your handling code here:
+
+
     }//GEN-LAST:event_jButton1MouseClicked
 
     /**

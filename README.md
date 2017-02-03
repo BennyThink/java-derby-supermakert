@@ -1,17 +1,49 @@
 # java-derby-supermakert
 A java derby database demo program.
-明月你先看我
-====
-选择这个分支，至少你的英语水平应该足够看懂这个readme吧<br>
-默认登陆的账号密码是moon/***REMOVED***,Bunny/***REMOVED***<br>
-这个程序的代码效率非常非常低，不建议你以此为模板进行学习！
+**2017年2月3日更新**
+
+## 明月你先看我 ##
+选择***REMOVED***分支，至少你的英语水平应该足够看懂这个readme吧
+默认登陆的账号密码是moon/***REMOVED***,Bunny/***REMOVED***
+
 一些目录的说明：
 * dist中为jar文件
+* dist中的javadoc为文档，你可以参考文档来“二次开发”
 * src为由NetBeans生成的源代码
 * market为数据库文件
-* 所有图片存在于“图片文件”中
-* 可手动编译的  可以使用命令行`javac  Login.java`来编译运行
 
+## 思想 ##
+我今天给它大改，改成了比较纯正的OOP模式，虽说写的不咋样，但是也算得上足够参考能让你迈出打败“见类死”的第一步。
+整个程序有三个包：
+* ***REMOVED***.images 这个包用来保存icon、图片等
+* ***REMOVED***.main   两个JFrame的主要文件
+* ***REMOVED***.util   提供数据库、单向散列函数的类
+
+所有的数据库查询操作都是使用DBUtil类中的对应方法，而不是每个事件都经历建立连接-查询步骤。
+
+美中不足的是，数据库要跟着jar（或者是NetBeans工程目录）走，解决方法也很简单，在`DBUtil`的构造函数中，取消那段注释就行了。缺点是会影响一点点程序启动的速度（需要构造嘛！）
+
+
+## 数据库建表语句 ##
+```
+//@moon:通常来说你是不需要这个文件的。这里提供下表结构，以供参考。
+
+connect 'jdbc:derby:market;create=true';
+
+create table product(pID char(10) primary key, pName char(20),pProducer char(20),pOrigin char(10),pDate char(20),pPrice1 char(20),pPrice2 char(20));
+create table admin(aID char(1),aUser char(10) primary key,aPassword char(40));
+
+insert into admin values('0','moon','956e3f6be3d2792bd93efc7fdb3d19941ca20e43');
+insert into admin values('1','Bunny','62221f301a1c106d1f6ec9e982c60fcab3d8aad0');
+
+insert into product values('1','康师傅牛肉面','统一','沈阳','2016-3-5','2','3');
+insert into product values('2','牛奶','蒙牛','沈阳','2016-4-5','2','4');
+insert into product values('3','酸奶','统二','大连','2016-3-5','2','3');
+insert into product values('4','冰红茶','雪公司','沈阳','2015-3-5','4','5');
+insert into product values('5','冰绿茶','可口可乐公司','沈阳','2016-6-5','5','6');
+```
+
+# 原始Readme #
 
 What's this?
 ====

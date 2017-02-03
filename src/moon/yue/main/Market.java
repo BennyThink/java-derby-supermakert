@@ -1,136 +1,53 @@
-
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
-
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package ***REMOVED***.main;
+
+import ***REMOVED***.util.getSHA1;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
+import ***REMOVED***.util.DBUtil;
+
+
 /**
  *
  * @author moon
  */
 public class Market extends javax.swing.JFrame {
 
-    public String  permission;
+    private final String  permission;
+    private final DBUtil ConsoleOP = new DBUtil();
+    
     /**
      * Creates new form Market
+     * @param ss
+     *          传递的权限
      */
     public Market(String ss) {
         initComponents();
         //@moon:居中显示
         permission=ss;
-        setLocationRelativeTo(null);
-        //@moon:icon与驱动
-        setIconImage(Toolkit.getDefaultToolkit().getImage("huaji.png"));
-        try {
-            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("加载驱动程序失败!");
-        }
+        setLocationRelativeTo(null);      
         jPanel1.remove(jLabelWarning);
-        //在这里初始化jTable
-        //读取之前，我先把jTable都初始化了免得出错
-        for (int i = 0; i <= 99; i++) {
-            for (int j = 0; j < 7; j++) {
-                ar.setValueAt("", i, j);
-            }
-        }
-        //初始化jtable
-        for (int i = 0; i <= 99; i++) {
-            for (int j = 0; j < 7; j++) {
-                jTable1.setValueAt("", i, j);
-            }
-        }
-        //从某个表中读取数据，并存放到类中。
-        class dbProduct {
-            String pID = null;
-            String pName = null;
-            String pProducer = null;
-            String pOrigin = null;
-            String pDate = null;
-            String pPrice1 = null;
-            String pPrice2 = null;
-        };
-        dbProduct[] oldDbInfo = new dbProduct[100];
-        //it worked!
-
-        for (int i = 0; i <= 99; i++) {
-            oldDbInfo[i] = new dbProduct();
-        }
-        oldDbInfo[0].pID = "类的对象数组创建成功";
-      
-        //读取 
-        try {
-            String url = "jdbc:derby:market;create=true";   
-            Connection con = DriverManager.getConnection(url);
-            String s = "select * from product ";
-            Statement sql = con.createStatement();
-            ResultSet rs = sql.executeQuery(s);
-            int i = 0;
-            //商品有很多，所以要循环
-            while (rs.next()) {
-                String pID = rs.getString(1);
-                String pName = rs.getString(2);
-                String pProducer = rs.getString(3);
-                String pOrigin = rs.getString(4);
-                String pDate = rs.getString(5);
-                String pPrice1 = rs.getString(6);
-                String pPrice2 = rs.getString(7);
-                ar.setValueAt(pID, i, 0);
-                ar.setValueAt(pName, i, 1);
-                ar.setValueAt(pProducer, i, 2);
-                ar.setValueAt(pOrigin, i, 3);
-                ar.setValueAt(pDate, i, 4);
-                ar.setValueAt(pPrice1, i, 5);
-                ar.setValueAt(pPrice2, i, 6);
-                i++;
-            }
-            con.close();
-        } catch (SQLException g) {
-            System.out.println("E Code" + g.getErrorCode());
-            System.out.println("E M" + g.getMessage());
-            System.out.println("全部库存显示失败");
-        }
-
-        //现在全部商品都在jTable中
-        //那么就复制到所谓的“结构数组”中！
-        // ar.getValueAt();
-        //ar.getRowCount();JTable行数
-        // ar.getColumnCount();//列数
-        //oldDbInfo[0].pID=String.valueOf(ar.getRowCount());
-        oldDbInfo[0].pID = ar.getValueAt(0, 0).toString();
-        for (int row = 0; row <= 99; row++) {
-            oldDbInfo[row].pID = ar.getValueAt(row, 0).toString();
-            oldDbInfo[row].pName = ar.getValueAt(row, 1).toString();
-            oldDbInfo[row].pProducer = ar.getValueAt(row, 2).toString();
-            oldDbInfo[row].pOrigin = ar.getValueAt(row, 3).toString();
-            oldDbInfo[row].pDate = ar.getValueAt(row, 4).toString();
-            oldDbInfo[row].pPrice1 = ar.getValueAt(row, 5).toString();
-            oldDbInfo[row].pPrice2 = ar.getValueAt(row, 6).toString();
-        }
-
+        //@moon:在这里“初始化”jTable
+        clearStorage();
+        clearInTable();
         //logintype
         //@moon:管理员权限判断
-       System.out.println("sssssss "+permission);
+        
         if ("0".equals(permission)) {
-            System.out.println("管理员23333");
+            System.out.println("管理员");
             jPanel1.remove(img1);
         } else {
-            //jButton1.setEnabled(false);
-            //jButton1.removeActionListener(null);
             jPanel1.removeAll();
             jPanel1.add(jLabelWarning);
             jPanel1.add(img1);
@@ -150,35 +67,7 @@ public class Market extends javax.swing.JFrame {
             jPanel6.remove(jCheckBox1);
             jPanel6.remove(jButton8);
         }
-
-        //logintype
-        //显示管理员
-        int i = 0;
-        try {
-            String url = "jdbc:derby:market;create=true";    //这里
-            Connection con = DriverManager.getConnection(url);
-            String s = "select * from admin ";
-            Statement sql = con.createStatement();
-            ResultSet rs = sql.executeQuery(s);
-            //商品有很多，所以要循环
-            while (rs.next()) {
-                String aID = rs.getString(1);
-                if (aID.equals("0")) {
-                    aID = "管理员";
-                } else {
-                    aID = "普通用户";
-                }
-                String aUser = rs.getString(2);
-                jTable2.setValueAt(aID, i, 0);
-                jTable2.setValueAt(aUser, i, 1);
-                i++;
-            }
-            con.close();
-        } catch (SQLException g) {
-            System.out.println("E Code" + g.getErrorCode());
-            System.out.println("E M" + g.getMessage());
-            System.out.println("全部用户显示失败");
-        }
+     
     }
 
     /**
@@ -225,7 +114,14 @@ public class Market extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("超市管理系统 - 滑稽版");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/moon/***REMOVED***/images/huaji.png")));
         setResizable(false);
+
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -343,7 +239,7 @@ public class Market extends javax.swing.JFrame {
             }
         });
 
-        img1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/5.gif"))); // NOI18N
+        img1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/***REMOVED***/images/5.gif"))); // NOI18N
         img1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 img1MouseClicked(evt);
@@ -359,15 +255,15 @@ public class Market extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 20, Short.MAX_VALUE)
+                .addGap(0, 90, Short.MAX_VALUE)
                 .addComponent(img1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane1)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addGap(31, 31, 31))
         );
@@ -376,11 +272,12 @@ public class Market extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(73, 73, 73)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -518,7 +415,7 @@ public class Market extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.setText("请输入要查询/删除的编号");
+        jTextField1.setText("请输入要查询的编号");
 
         jButton3.setText("修改信息");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -548,26 +445,28 @@ public class Market extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(jLabel1))
+                        .addGap(38, 38, 38)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jButton2)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton4)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(56, 56, 56)
+                                .addComponent(jLabel1))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(44, 44, 44)
+                                .addComponent(jButton5)
+                                .addGap(53, 53, 53)
+                                .addComponent(jButton3))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(jButton5)
-                        .addGap(53, 53, 53)
-                        .addComponent(jButton3)))
-                .addContainerGap(151, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2))
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -578,7 +477,7 @@ public class Market extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton4)
@@ -677,7 +576,7 @@ public class Market extends javax.swing.JFrame {
                         .addComponent(jButton7)
                         .addGap(111, 111, 111)
                         .addComponent(jButton8)))
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addContainerGap(262, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -705,7 +604,7 @@ public class Market extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7)
                     .addComponent(jButton8))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("人员管理", jPanel6);
@@ -721,7 +620,6 @@ public class Market extends javax.swing.JFrame {
         jLabelHelp.setForeground(new java.awt.Color(0, 153, 0));
         jLabelHelp.setText("什么？你想干嘛？！");
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/3.gif"))); // NOI18N
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel5MouseClicked(evt);
@@ -734,7 +632,7 @@ public class Market extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelHelp, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                .addComponent(jLabelHelp, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(92, 92, 92))
@@ -748,7 +646,7 @@ public class Market extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelHelp, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -762,17 +660,45 @@ public class Market extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 773, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * 用空清空表
+     */
+    private void clearInTable() {
+        //初始化jtable
+
+        for (int i = 0; i <= jTable1.getRowCount() - 1; i++) {
+            for (int j = 0; j < 7; j++) {
+                jTable1.setValueAt("", i, j);
+            }
+        }
+    }
+
+    /**
+     * 用空清空表
+     */
+    private void clearStorage() {
+
+        for (int i = 0; i <= ar.getRowCount() - 1; i++) {
+            for (int j = 0; j < 7; j++) {
+                ar.setValueAt("", i, j);
+            }
+        }
+    }
+    
+    
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
        //@moon:这里是最后搞笑的啦~~
         Image img = null;
@@ -802,83 +728,37 @@ public class Market extends javax.swing.JFrame {
 
     private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
         //@moon:删除用户
-        //先显示出来
-        int i = 0;
-        try {
-            String url = "jdbc:derby:market;create=true";    //这里
-            Connection con = DriverManager.getConnection(url);
-            String s = "select * from admin ";
-            Statement sql = con.createStatement();
-            ResultSet rs = sql.executeQuery(s);
-            //商品有很多，所以要循环
-            while (rs.next()) {
-                String aID = rs.getString(1);
-                if (aID.equals("0")) {
-                    aID = "管理员";
-                } else {
-                    aID = "普通用户";
-                }
-                String aUser = rs.getString(2);
-                jTable2.setValueAt(aID, i, 0);
-                jTable2.setValueAt(aUser, i, 1);
-                i++;
-            }
-            con.close();
-        } catch (SQLException g) {
-            System.out.println("E Code" + g.getErrorCode());
-            System.out.println("E M" + g.getMessage());
-            System.out.println("全部用户显示失败");
-        }
-        //获取当前游标什么的,选中第二列，getSelectedRow()会为1
-        //删除
-        //取得对应的0或者1
-        // jTable2.getValueAt(0,jTable2.getSelectedRow());
-        //这个代码能得到是普通用户还是管理员
-        //System.out.println("ID "+jTable2.getValueAt(jTable2.getSelectedRow(),0));
-        //这个得到唯一的用户名
-        //System.out.println(jTable2.getValueAt(jTable2.getSelectedRow(),1));
-
-        if (jTable2.getValueAt(jTable2.getSelectedRow(), 0) == "管理员") {
-            JOptionPane.showMessageDialog(null, "都是管理员，为何要相爱相杀", "爱即是恨", JOptionPane.ERROR_MESSAGE);
-        } else {
-            //////////////////////////////////////////
-            try {
-                String url = "jdbc:derby:market;create=true";    //这里
-                Connection con = DriverManager.getConnection(url);
-                Statement sql = con.createStatement();
+        if (jButton8.isEnabled() == true) {
+            if (jTable2.getValueAt(jTable2.getSelectedRow(), 0) == "管理员") {
+                JOptionPane.showMessageDialog(null, "都是管理员，为何要相爱相杀", "爱即是恨", JOptionPane.ERROR_MESSAGE);
+            } else {
                 String SelUser = String.valueOf(jTable2.getValueAt(jTable2.getSelectedRow(), 1)).trim();
                 String s = "delete  from admin  where aUser ='" + SelUser + "'";
-                sql = con.createStatement();
-                int del = sql.executeUpdate(s);
-                if (del == 1) {
-                    JOptionPane.showMessageDialog(null, "删除成功！",
-                            "信息", JOptionPane.YES_NO_OPTION);
-                } else {
-                    JOptionPane.showMessageDialog(null, "删除失败！",
-                            "信息", JOptionPane.YES_NO_OPTION);
+                try {
+                    ConsoleOP.OrdinaryQuery(s);
+                    JOptionPane.showMessageDialog(null, "删除成功！", "信息", JOptionPane.YES_NO_OPTION);
+                    DefaultTableModel tableModel = (DefaultTableModel) jTable2.getModel();
+                    tableModel.removeRow(jTable2.getSelectedRow());
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "删除失败！", "信息", JOptionPane.YES_NO_OPTION);
+                    Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                con.close();
-            } catch (SQLException g) {
-                System.out.println("E Code" + g.getErrorCode());
-                System.out.println("E M" + g.getMessage());
-                System.out.println("删除失败！请查看上述报错信息");
-            }
 
-            //////////////////////////
+            }
         }
+  
 
     }//GEN-LAST:event_jButton8MouseClicked
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
-        // 显示用户
+        // 显示用户jtable2
+        jButton8.setEnabled(false);
         int i = 0;
+        String s = "select * from admin ";
+        ResultSet rs;
         try {
-            String url = "jdbc:derby:market;create=true";    //这里
-            Connection con = DriverManager.getConnection(url);
-            String s = "select * from admin ";
-            Statement sql = con.createStatement();
-            ResultSet rs = sql.executeQuery(s);
-            //商品有很多，所以要循环
+            rs = ConsoleOP.select(s);
+            jButton8.setEnabled(true);
             while (rs.next()) {
                 String aID = rs.getString(1);
                 if (aID.equals("0")) {
@@ -891,169 +771,91 @@ public class Market extends javax.swing.JFrame {
                 jTable2.setValueAt(aUser, i, 1);
                 i++;
             }
-            con.close();
-        } catch (SQLException g) {
-            System.out.println("E Code" + g.getErrorCode());
-            System.out.println("E M" + g.getMessage());
-            System.out.println("全部用户显示失败");
+        } catch (SQLException ex) {
+            Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButton7MouseClicked
 
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
         // 新增管理员
-        try {
-            String url = "jdbc:derby:market;create=true";   //重要
-            Connection con = DriverManager.getConnection(url);
-            Statement sql = con.createStatement();
-            //@moon:sha1
-            getSHA1 sha = new getSHA1();
-            String regUname = jTextReg.getText().trim();
-            String regPasswd = sha.getSHA(jPasswdReg.getText().trim());
-            String reg = null;
-            if (jCheckBox1.isSelected()) {
-                reg = "insert into admin values('0','" + regUname + "','" + regPasswd + "')";
-            } else {
-                reg = "insert into admin values('1','" + regUname + "','" + regPasswd + "')";
-            }
-
-            int regRes = sql.executeUpdate(reg);
-            if (regRes == 1) {
-                JOptionPane.showMessageDialog(rootPane, "注册成功", "提示", WIDTH);
-                con.close();
-            } else {
-                JOptionPane.showMessageDialog(null, "注册失败", "提示！",
-                        JOptionPane.YES_NO_OPTION);
-            }
-            jTextReg.setText("");
-            jPasswdReg.setText("");
-
-        } catch (SQLException g) {
-            System.out.println("E Code" + g.getErrorCode());
-            System.out.println("E M" + g.getMessage());
-        } catch (Exception ex) {
-            Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
+        //@moon:sha1
+        getSHA1 sha = new getSHA1();
+        String regUname = jTextReg.getText().trim();
+        String regPasswd = sha.getSHA(jPasswdReg.getText().trim());
+        String reg = null;
+        if (jCheckBox1.isSelected()) {
+            reg = "insert into admin values('0','" + regUname + "','" + regPasswd + "')";
+        } else {
+            reg = "insert into admin values('1','" + regUname + "','" + regPasswd + "')";
         }
+        try {
+            ConsoleOP.OrdinaryQuery(reg);
+            JOptionPane.showMessageDialog(rootPane, "注册成功", "提示", WIDTH);
+        } catch (SQLException ex) {
+            Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "注册失败", "提示！", JOptionPane.YES_NO_OPTION);
+        }
+
+        jTextReg.setText("");
+        jPasswdReg.setText("");
+
 
     }//GEN-LAST:event_jButton6MouseClicked
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
         // 删除商品
-        //需要做的事情是，先查询出来显示在Table中，然后问用户是否要删除
-        //再根据返回值决定操作
-        try {
-            String url = "jdbc:derby:market;create=true";    //这里
-            Connection con = DriverManager.getConnection(url);
-            String inputID = jTextField1.getText().trim();
-            String s = "select * from product  where pID ='" + inputID + "'";
-            Statement sql = con.createStatement();
-            ResultSet rs = sql.executeQuery(s);
-            //ID是唯一的主键，所以查询到一个就停了
-            if (rs.next()) {
-                String pID = rs.getString(1);
-                String pName = rs.getString(2);
-                String pProducer = rs.getString(3);
-                String pOrigin = rs.getString(4);
-                String pDate = rs.getString(5);
-                String pPrice1 = rs.getString(6);
-                String pPrice2 = rs.getString(7);
-                ar.setValueAt(pID, 0, 0);
-                ar.setValueAt(pName, 0, 1);
-                ar.setValueAt(pProducer, 0, 2);
-                ar.setValueAt(pOrigin, 0, 3);
-                ar.setValueAt(pDate, 0, 4);
-                ar.setValueAt(pPrice1, 0, 5);
-                ar.setValueAt(pPrice2, 0, 6);
-                //删除代码应该写在这里，照样try catch
-                //如果成功的查询到了信息，那么先询问
-                int n = JOptionPane.showConfirmDialog
-        (this, "你要删除这条记录吗", "删除提示", JOptionPane.YES_NO_OPTION);
-                if (n == JOptionPane.YES_OPTION) //用户同意删除，在这里写入删除的代码！
-                {
-                    try {
-                        inputID = jTextField1.getText();
-                        s = "delete  from product  where pID ='" + inputID + "'";
-                        sql = con.createStatement();
-                        int del = sql.executeUpdate(s);
-                        if (del == 1) {
-                            JOptionPane.showMessageDialog(null, "删除成功！",
-                                    "信息", JOptionPane.YES_NO_OPTION);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "删除失败！",
-                                    "信息", JOptionPane.YES_NO_OPTION);
-                        }
-                        con.close();
-                    } catch (SQLException g) {
-                        System.out.println("E Code" + g.getErrorCode());
-                        System.out.println("E M" + g.getMessage());
-                        System.out.println("删除失败！请查看上述报错信息");
-                    }
-                } else {
-                    System.out.println("删除已取消");
-                }
+        //删掉jTable中选定行
 
-                //删除代码
-            } else {
-                JOptionPane.showMessageDialog(null, "您输入的编号不存在，请重新输入",
-                        "输入错误", JOptionPane.YES_NO_OPTION);
+        if (ar.getValueAt(ar.getSelectedRow(), 0) == "") {
+            JOptionPane.showMessageDialog(rootPane, "未选择", "错误", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else {
+            int n = JOptionPane.showConfirmDialog(this, "你要删除这条记录吗", "删除提示", JOptionPane.YES_NO_OPTION);
+            if (n == JOptionPane.YES_OPTION) //用户同意删除，在这里写入删除的代码！
+            {
+                //删除的sql语句
+                String del = "delete  from product  where pID ='" + ar.getValueAt(ar.getSelectedRow(), 0) + "'";
+                try {
+                    ConsoleOP.OrdinaryQuery(del);
+                    DefaultTableModel tableModel = (DefaultTableModel) ar.getModel();
+                    tableModel.removeRow(ar.getSelectedRow());
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(rootPane, ex, "错误", JOptionPane.WARNING_MESSAGE);
+                    Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            con.close();
-        } catch (SQLException g) {
-            System.out.println("E Code" + g.getErrorCode());
-            System.out.println("E M" + g.getMessage());
-            System.out.println("查询失败！请查看上述报错信息");
         }
 
-        //弹出提示框询问用户是否要删除
-        //测试下删除代码吧！
-        jTextField1.setText("请输入要查询/删除的编号");
 
     }//GEN-LAST:event_jButton5MouseClicked
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
         // 查询指定商品
         //全部清空
-        for (int i = 0; i <= 99; i++) {
-            for (int j = 0; j < 7; j++) {
-                ar.setValueAt("", i, j);
-            }
-        }
-        //清完了
+        clearStorage();
+        String inputID = jTextField1.getText().trim();
+        String s = "select * from product  where pID ='" + inputID + "'";
+        ResultSet specRs;
         try {
-            String url = "jdbc:derby:market;create=true";    //这里
-            Connection con = DriverManager.getConnection(url);
-            String inputID = jTextField1.getText().trim();
-            String s = "select * from product  where pID ='" + inputID + "'";
-            Statement sql = con.createStatement();
-            ResultSet rs = sql.executeQuery(s);
-            //ID是唯一的主键，所以查询到一个就停了
-            if (rs.next()) {
-                String pID = rs.getString(1);
-                String pName = rs.getString(2);
-                String pProducer = rs.getString(3);
-                String pOrigin = rs.getString(4);
-                String pDate = rs.getString(5);
-                String pPrice1 = rs.getString(6);
-                String pPrice2 = rs.getString(7);
-                ar.setValueAt(pID, 0, 0);
-                ar.setValueAt(pName, 0, 1);
-                ar.setValueAt(pProducer, 0, 2);
-                ar.setValueAt(pOrigin, 0, 3);
-                ar.setValueAt(pDate, 0, 4);
-                ar.setValueAt(pPrice1, 0, 5);
-                ar.setValueAt(pPrice2, 0, 6);
+            specRs = ConsoleOP.select(s);
+            if (specRs.next()) {
+                //ID是唯一的主键，所以查询到一个就停了
+                ar.setValueAt(specRs.getString(1), 0, 0);
+                ar.setValueAt(specRs.getString(2), 0, 1);
+                ar.setValueAt(specRs.getString(3), 0, 2);
+                ar.setValueAt(specRs.getString(4), 0, 3);
+                ar.setValueAt(specRs.getString(5), 0, 4);
+                ar.setValueAt(specRs.getString(6), 0, 5);
+                ar.setValueAt(specRs.getString(7), 0, 6);
             } else {
                 JOptionPane.showMessageDialog(null, "您输入的编号不存在，请重新输入",
-                        "输入错误", JOptionPane.YES_NO_OPTION);
+                    "输入错误", JOptionPane.YES_NO_OPTION);
             }
-            con.close();
-        } catch (SQLException g) {
-            System.out.println("E Code" + g.getErrorCode());
-            System.out.println("E M" + g.getMessage());
-            System.out.println("查询失败！请查看上述报错信息");
+        } catch (SQLException ex) {
+            Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        jTextField1.setText("请输入要查询/删除的编号");
+        jTextField1.setText("请输入要查询的编号");
 
     }//GEN-LAST:event_jButton4MouseClicked
 
@@ -1061,49 +863,36 @@ public class Market extends javax.swing.JFrame {
         //@moon:修改信息，这也是最困难的部分了
         //修改之前已经jTable已经有了内容了。所以就直接以ID为准每个都update
         //在这之前检测行尾
-        int updateResult = 0;
-        String updateMainStr = "update product set pName='";
+      
+        String updateMainStr = null;
         for (int i = 0; i <= 99; i++) {
             if (ar.getValueAt(i, 0).toString() != "") {
                 //横着读取，所以是00 01 02 03 04 05 06
-                updateMainStr = "update product set pName='";
-                updateMainStr
-                        = updateMainStr + ar.getValueAt(i, 1).toString().trim()
-                        + "',pProducer='" + ar.getValueAt(i, 2).toString().trim()
-                        + "',pOrigin='" + ar.getValueAt(i, 3).toString().trim()
-                        + "',pDate='" + ar.getValueAt(i, 4).toString().trim()
-                        + "',pPrice1='" + ar.getValueAt(i, 5).toString().trim()
-                        + "',pPrice2='" + ar.getValueAt(i, 6).toString().trim()
-                        + "' where pID='" + ar.getValueAt(i, 0).toString().trim() + "'";
-                // System.out.println(updateMainStr);
-
+                updateMainStr = "update product set pName='"
+                    + ar.getValueAt(i, 1).toString().trim()
+                    + "',pProducer='" + ar.getValueAt(i, 2).toString().trim()
+                    + "',pOrigin='" + ar.getValueAt(i, 3).toString().trim()
+                    + "',pDate='" + ar.getValueAt(i, 4).toString().trim()
+                    + "',pPrice1='" + ar.getValueAt(i, 5).toString().trim()
+                    + "',pPrice2='" + ar.getValueAt(i, 6).toString().trim()
+                    + "' where pID='" + ar.getValueAt(i, 0).toString().trim() + "'";
                 try {
-                    String url = "jdbc:derby:market;create=true";
-                    Connection con = DriverManager.getConnection(url);
-                    Statement sql;
-                    sql = con.createStatement();
-                    System.out.println(updateMainStr);
-                    updateResult = sql.executeUpdate(updateMainStr);
+                    //System.out.println(updateMainStr);
+                    //数据库代码
+                    ConsoleOP.OrdinaryQuery(updateMainStr);
 
-                    con.close();
-                } catch (SQLException g) {
-                    System.out.println("E Code" + g.getErrorCode());
-                    System.out.println("E M" + g.getMessage());
-                    System.out.println("更新失败啊");
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "修改失败", "信息", JOptionPane.ERROR_MESSAGE);
+                    Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                /////////////////////当成一般的代码//////////////////////
 
             } else {
                 System.out.println("ID为空，似乎是空行了哦");
+                JOptionPane.showMessageDialog(null, "修改成功！", "信息", JOptionPane.INFORMATION_MESSAGE);
                 break;
             }
         }
-        if (updateResult == 1) {
-            JOptionPane.showMessageDialog(null, "修改成功！",
-                    "信息", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null, "修改失败", "信息", JOptionPane.ERROR_MESSAGE);
-        }
+   
 
 
     }//GEN-LAST:event_jButton3MouseClicked
@@ -1112,39 +901,28 @@ public class Market extends javax.swing.JFrame {
         // 显示全部的库存代码
         int i = 0;
         String count = "xx";
+        String s = "select * from product ";
+        ResultSet showProduct;
         try {
-            String url = "jdbc:derby:market;create=true";    //这里
-            Connection con = DriverManager.getConnection(url);
-            String s = "select * from product ";
-            Statement sql = con.createStatement();
-            ResultSet rs = sql.executeQuery(s);
+            showProduct = ConsoleOP.select(s);
             //商品有很多，所以要循环
-            while (rs.next()) {
-                String pID = rs.getString(1);
-                String pName = rs.getString(2);
-                String pProducer = rs.getString(3);
-                String pOrigin = rs.getString(4);
-                String pDate = rs.getString(5);
-                String pPrice1 = rs.getString(6);
-                String pPrice2 = rs.getString(7);
-                ar.setValueAt(pID, i, 0);
-                ar.setValueAt(pName, i, 1);
-                ar.setValueAt(pProducer, i, 2);
-                ar.setValueAt(pOrigin, i, 3);
-                ar.setValueAt(pDate, i, 4);
-                ar.setValueAt(pPrice1, i, 5);
-                ar.setValueAt(pPrice2, i, 6);
+            while (showProduct.next()) {
+                ar.setValueAt(showProduct.getString(1), i, 0);
+                ar.setValueAt(showProduct.getString(2), i, 1);
+                ar.setValueAt(showProduct.getString(3), i, 2);
+                ar.setValueAt(showProduct.getString(4), i, 3);
+                ar.setValueAt(showProduct.getString(5), i, 4);
+                ar.setValueAt(showProduct.getString(6), i, 5);
+                ar.setValueAt(showProduct.getString(7), i, 6);
                 i++;
             }
             count = "" + i + "";
             jLabel1.setText("超市现有商品" + count + "个");
-            con.close();
-        } catch (SQLException g) {
-            System.out.println("E Code" + g.getErrorCode());
-            System.out.println("E M" + g.getMessage());
-            System.out.println("全部库存显示失败");
+        } catch (SQLException ex) {
+            Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+  
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -1154,19 +932,23 @@ public class Market extends javax.swing.JFrame {
         //jTable1.getValueAt(0, 0).toString();
         //inputLines=1是用户输入了一行。
         //jTable1.getValueAt(99, 0).toString();
+       //debug 此处存在空
+       
         int inputLines = 0;
-        Connection con;
-        PreparedStatement sql;
         String[] a = new String[7];
-        int multiResult = 0;
+      
+        String insertStr = null;
         for (int i = 0; i <= 99; i++) {
             if (jTable1.getValueAt(i, 0).toString() != "") {
                 inputLines++;
             }
         }
-        System.out.println(inputLines + "多少行啊");
+        
+        //System.out.println(inputLines + " 多少行");
         //inputLines就是5行，数值为5
-
+        
+        if(inputLines==0)
+            return;
         for (int i = 0; i < inputLines; i++) {
             a[0] = jTable1.getValueAt(i, 0).toString().trim();
             a[1] = jTable1.getValueAt(i, 1).toString().trim();
@@ -1175,39 +957,26 @@ public class Market extends javax.swing.JFrame {
             a[4] = jTable1.getValueAt(i, 4).toString().trim();
             a[5] = jTable1.getValueAt(i, 5).toString().trim();
             a[6] = jTable1.getValueAt(i, 6).toString().trim();
-            //建立连接并插入
-
+            insertStr = "insert into product values('"
+                + a[0] + "','" + a[1] + "','" + a[2] + "','" + a[3] + "','" + a[4] + "','"
+                + a[5] + "','" + a[6] + "')";
+           // System.out.println("SQL语句 " + insertStr);
             try {
-                String uri = "jdbc:derby:Market;create=true";
-                con = DriverManager.getConnection(uri);
-                String SQL
-                        = "INSERT INTO product VALUES(?,?,?,?,?,?,?)";
-                sql = con.prepareStatement(SQL);
-                sql.setString(1, a[0].trim());
-                sql.setString(2, a[1].trim());
-                sql.setString(3, a[2].trim());
-                sql.setString(4, a[3].trim());
-                sql.setString(5, a[4].trim());
-                sql.setString(6, a[5].trim());
-                sql.setString(7, a[6].trim());
-                multiResult = sql.executeUpdate();
-                con.close();
-            } catch (SQLException exp) {
-                JOptionPane.showMessageDialog(null, "" + exp, "消息对话框", JOptionPane.WARNING_MESSAGE);
+                ConsoleOP.OrdinaryQuery(insertStr);
+                               
+            } catch (SQLException ex) {
+                Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, ex, "出错了", JOptionPane.WARNING_MESSAGE);
             }
-
-            //////////////我就是注释狂魔/////////////////////////
         }
-        //获取Table内容
-        if (multiResult == 1) {
-            JOptionPane.showMessageDialog(null, "插入记录成功", "消息对话框", JOptionPane.WARNING_MESSAGE);
-        }
+        JOptionPane.showMessageDialog(null, "操作成功", "消息对话框", JOptionPane.WARNING_MESSAGE);
+        clearInTable();
+       
 
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void img1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_img1MouseClicked
         // 滑稽
-         //System.out.println(this.permission+"  sssss");
         JOptionPane.showMessageDialog(rootPane, "谁让你点了？", "滑稽在此", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_img1MouseClicked
 
@@ -1217,6 +986,57 @@ public class Market extends javax.swing.JFrame {
         jLabel5.setIcon(new ImageIcon(img));
         jLabel5.setText("魔法变变变！");
     }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        // TODO add your handling code here:
+        String str = null;
+        ResultSet ShowRs1;
+        ResultSet ShowRs2;
+        if (jTabbedPane1.getSelectedIndex() == 1) {
+            str = "select * from product ";
+            try {
+                ShowRs1 = ConsoleOP.select(str);
+                int i = 0;
+                while (ShowRs1.next()) {
+                    ar.setValueAt(ShowRs1.getString(1), i, 0);
+                    ar.setValueAt(ShowRs1.getString(2), i, 1);
+                    ar.setValueAt(ShowRs1.getString(3), i, 2);
+                    ar.setValueAt(ShowRs1.getString(4), i, 3);
+                    ar.setValueAt(ShowRs1.getString(5), i, 4);
+                    ar.setValueAt(ShowRs1.getString(6), i, 5);
+                    ar.setValueAt(ShowRs1.getString(7), i, 6);
+                    i++;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else if (jTabbedPane1.getSelectedIndex() == 2) {
+            str = "select * from admin ";
+            int i = 0;
+            try {
+                ShowRs2 = ConsoleOP.select(str);
+                while (ShowRs2.next()) {
+                    String aID = ShowRs2.getString(1);
+                    if (aID.equals("0")) {
+                        aID = "管理员";
+                    } else {
+                        aID = "普通用户";
+                    }
+                    String aUser = ShowRs2.getString(2);
+                    jTable2.setValueAt(aID, i, 0);
+                    jTable2.setValueAt(aUser, i, 1);
+                    i++;
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        
+        
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     /**
      * @param args the command line arguments
