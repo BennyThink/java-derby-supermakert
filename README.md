@@ -33,10 +33,10 @@ NetBeans + JDK8u74 (1.8.0_74)
 connect 'jdbc:derby:market;create=true';
 
 create table product(pID char(10) primary key, pName char(20),pProducer char(20),pOrigin char(10),pDate char(20),pPrice1 char(20),pPrice2 char(20));
-create table admin(aID char(1),aUser char(10) primary key,aPassword char(40));
+create table admin(aID char(1),aUser varchar(10) primary key,aPassword varchar(140));
 
-insert into admin values('0','moon','956e3f6be3d2792bd93efc7fdb3d19941ca20e43');
-insert into admin values('1','Bunny','62221f301a1c106d1f6ec9e982c60fcab3d8aad0');
+insert into admin values('0','moon','1000:6c0cfefea37e6b2a21d1822a4a9e5f0bb1e37b91971e578d:32907c9856b72c9190ed71f602f9138ba077af9d7df1ea85');
+insert into admin values('1','Benny','1000:871eced7f4773c952b2fae7688087af85f1886840f04c645:39afda635b7a2d33553ba234866e86d96089729ec93fef60');
 
 insert into product values('1','康师傅牛肉面','统一','沈阳','2016-3-5','2','3');
 insert into product values('2','牛奶','蒙牛','沈阳','2016-4-5','2','4');
