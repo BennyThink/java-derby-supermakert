@@ -703,26 +703,22 @@ public class Market extends javax.swing.JFrame {
     
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
        //@moon:这里是最后搞笑的啦~~
-        Image img ;
-
+        
         if (jComboBox1.getSelectedItem() == "程序说明") {
-            jLabelHelp.setText("什么程序不程序的");
-            img = Toolkit.getDefaultToolkit().createImage("4.gif");
-            jLabel5.setIcon(new ImageIcon(img));
+            jLabelHelp.setText("什么程序不程序的");           
+            jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/***REMOVED***/images/4.gif")));
             jLabel5.setText("");
         }
 
         if (jComboBox1.getSelectedItem() == "开发者") {
-            jLabelHelp.setText("我是开发者");
-            img = Toolkit.getDefaultToolkit().createImage("yinxian.png");
-            jLabel5.setIcon(new ImageIcon(img));
+            jLabelHelp.setText("我是开发者");         
+            jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/***REMOVED***/images/yinxian.png")));
             jLabel5.setText("");
         }
         
         if (jComboBox1.getSelectedItem() == "其实我才是开发者") {
-            jLabelHelp.setText("楼上不是开发者，Bunny - 小兔子 才是！");
-            img = Toolkit.getDefaultToolkit().createImage("guai.png");
-            jLabel5.setIcon(new ImageIcon(img));
+            jLabelHelp.setText("楼上不是开发者，Bunny - 小兔子 才是！");          
+            jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/***REMOVED***/images/guai.png")));
             jLabel5.setText("");
         }
 
@@ -993,8 +989,7 @@ public class Market extends javax.swing.JFrame {
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         //jPanel7.remove(jLabel5);
-        Image img = Toolkit.getDefaultToolkit().createImage("2.gif");
-        jLabel5.setIcon(new ImageIcon(img));
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/***REMOVED***/images/2.gif")));
         jLabel5.setText("魔法变变变！");
     }//GEN-LAST:event_jLabel5MouseClicked
 
