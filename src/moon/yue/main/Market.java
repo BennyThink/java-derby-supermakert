@@ -5,8 +5,7 @@
  */
 package ***REMOVED***.main;
 
-import ***REMOVED***.util.getSHA1;
-import java.awt.Image;
+
 import java.awt.Toolkit;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -15,7 +14,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 import ***REMOVED***.util.DBUtil;
 import ***REMOVED***.util.PasswordHash;

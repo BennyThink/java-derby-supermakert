@@ -5,7 +5,6 @@
  */
 package ***REMOVED***.main;
 
-import ***REMOVED***.util.getSHA1;
 import java.awt.Toolkit;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -26,7 +25,7 @@ public class Login extends javax.swing.JFrame {
     
     //@moon:成员变量
     private final DBUtil LoginOP = new DBUtil();
-    private final getSHA1 sha = new getSHA1();
+    //private final getSHA1 sha = new getSHA1();
     /**
      * Creates new form Login
      */
