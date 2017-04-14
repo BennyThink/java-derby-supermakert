@@ -8,6 +8,8 @@ package ***REMOVED***.main;
 import ***REMOVED***.util.getSHA1;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -16,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 import ***REMOVED***.util.DBUtil;
+import ***REMOVED***.util.PasswordHash;
 
 
 /**
@@ -277,7 +280,6 @@ public class Market extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -701,7 +703,7 @@ public class Market extends javax.swing.JFrame {
     
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
        //@moon:这里是最后搞笑的啦~~
-        Image img = null;
+        Image img ;
 
         if (jComboBox1.getSelectedItem() == "程序说明") {
             jLabelHelp.setText("什么程序不程序的");
@@ -778,27 +780,36 @@ public class Market extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7MouseClicked
 
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
-        // 新增管理员
-        //@moon:sha1
-        getSHA1 sha = new getSHA1();
-        String regUname = jTextReg.getText().trim();
-        String regPasswd = sha.getSHA(jPasswdReg.getText().trim());
-        String reg = null;
-        if (jCheckBox1.isSelected()) {
-            reg = "insert into admin values('0','" + regUname + "','" + regPasswd + "')";
-        } else {
-            reg = "insert into admin values('1','" + regUname + "','" + regPasswd + "')";
-        }
-        try {
-            ConsoleOP.OrdinaryQuery(reg);
-            JOptionPane.showMessageDialog(rootPane, "注册成功", "提示", WIDTH);
-        } catch (SQLException ex) {
+        try {                                      
+            // 新增管理员
+            //@moon:sha1
+            //@moon:20170414 增加加盐散列
+            //getSHA1 sha = new getSHA1();
+            String regUname = jTextReg.getText().trim();
+            String regPasswd = PasswordHash.createHash(jPasswdReg.getText().trim());
+            String reg = null;
+            if (jCheckBox1.isSelected()) {
+                reg = "insert into admin values('0','" + regUname + "','" + regPasswd + "')";
+            } else {
+                reg = "insert into admin values('1','" + regUname + "','" + regPasswd + "')";
+            }
+            try {
+                ConsoleOP.OrdinaryQuery(reg);
+                JOptionPane.showMessageDialog(rootPane, "注册成功", "提示", WIDTH);
+            } catch (SQLException ex) {
+                Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "注册失败", "提示！", JOptionPane.YES_NO_OPTION);
+            }
+            
+            jTextReg.setText("");
+            jPasswdReg.setText("");
+            
+            
+        } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "注册失败", "提示！", JOptionPane.YES_NO_OPTION);
+        } catch (InvalidKeySpecException ex) {
+            Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        jTextReg.setText("");
-        jPasswdReg.setText("");
 
 
     }//GEN-LAST:event_jButton6MouseClicked

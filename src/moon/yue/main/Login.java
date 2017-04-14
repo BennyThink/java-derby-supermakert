@@ -7,12 +7,15 @@ package ***REMOVED***.main;
 
 import ***REMOVED***.util.getSHA1;
 import java.awt.Toolkit;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import ***REMOVED***.util.DBUtil;
+import ***REMOVED***.util.PasswordHash;
 
 
 /**
@@ -121,27 +124,37 @@ public class Login extends javax.swing.JFrame {
 
         //@moon:登陆代码，创建con、sql这三个对象，连接到market数据库
         //@moon:从admin表中用where做条件查询
+        //@moon:加盐散列函数
         String loginUserName = jTextField1.getText().trim();
-        String loginPasswd = sha.getSHA(jPasswordField1.getText());
+        String loginPasswd = jPasswordField1.getText();
+        
         String loginAuth = "select * from admin where "
-            + "aUser='" + loginUserName + "' and aPassword='" + loginPasswd + "'";
-
+            + "aUser='" + loginUserName+"'";
+        
+        
         ResultSet LoginRs;
         try {
             LoginRs = LoginOP.select(loginAuth);
-            if (LoginRs.next()) {
-                String loginType = LoginRs.getString(1).trim();
+            if (LoginRs.next()) {            
+                String storedPassword=LoginRs.getString(3);
+                String loginType = LoginRs.getString(1).trim();              
+                //验证密码
+                if(PasswordHash.validatePassword(loginPasswd, storedPassword)){           
                 //@moon:销毁本溪窗口，使用Market类创建新的对象并显示。
                 this.dispose();
                 Market newWindow = new Market(loginType);
                 newWindow.setVisible(true);
+                
                 //检查是否有管理员权限
-                if (loginType.equals("0")) {
-                    System.out.println("管理员权限");
-                } else {
-                    System.out.println("普通权限");
-                    JOptionPane.showMessageDialog(rootPane, "普通用户权限，将只能浏览", "提示", WIDTH);
+                if (!loginType.equals("0")) 
+                    {
+                    System.out.println("普通权限login");
+                    JOptionPane.showMessageDialog(rootPane, "普通用户权限，将只能浏览", "提示", WIDTH);  }                             
                 }
+              
+                else
+                    JOptionPane.showMessageDialog(null, "用户名不存在或者密码错误", "提示！",
+                    JOptionPane.YES_NO_OPTION);
 
             } else {
                 JOptionPane.showMessageDialog(null, "用户名不存在或者密码错误", "提示！",
@@ -151,6 +164,10 @@ public class Login extends javax.swing.JFrame {
             jPasswordField1.setText("");
 
         } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidKeySpecException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
 
