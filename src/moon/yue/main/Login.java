@@ -129,35 +129,31 @@ public class Login extends javax.swing.JFrame {
         
         String loginAuth = "select * from admin where "
             + "aUser='" + loginUserName+"'";
-        
-        
+               
         ResultSet LoginRs;
         try {
             LoginRs = LoginOP.select(loginAuth);
-            if (LoginRs.next()) {            
-                String storedPassword=LoginRs.getString(3);
-                String loginType = LoginRs.getString(1).trim();              
+            if (LoginRs.next()) {
+                String storedPassword = LoginRs.getString(3);
+                String loginType = LoginRs.getString(1).trim();
                 //验证密码
-                if(PasswordHash.validatePassword(loginPasswd, storedPassword)){           
-                //@moon:销毁本溪窗口，使用Market类创建新的对象并显示。
-                this.dispose();
-                Market newWindow = new Market(loginType);
-                newWindow.setVisible(true);
-                
-                //检查是否有管理员权限
-                if (!loginType.equals("0")) 
-                    {
-                    System.out.println("普通权限login");
-                    JOptionPane.showMessageDialog(rootPane, "普通用户权限，将只能浏览", "提示", WIDTH);  }                             
-                }
-              
-                else
+                if (PasswordHash.validatePassword(loginPasswd, storedPassword)) {
+                    //@moon:销毁本溪窗口，使用Market类创建新的对象并显示。
+                    this.dispose();
+                    Market newWindow = new Market(loginType);
+                    newWindow.setVisible(true);
+
+                    //检查是否有管理员权限
+                    if (!loginType.equals("0")) 
+                        JOptionPane.showMessageDialog(rootPane, "普通用户权限，将只能浏览", "提示", WIDTH);
+                } else {
                     JOptionPane.showMessageDialog(null, "用户名不存在或者密码错误", "提示！",
-                    JOptionPane.YES_NO_OPTION);
+                            JOptionPane.YES_NO_OPTION);
+                }
 
             } else {
                 JOptionPane.showMessageDialog(null, "用户名不存在或者密码错误", "提示！",
-                    JOptionPane.YES_NO_OPTION);
+                        JOptionPane.YES_NO_OPTION);
             }
 
             jPasswordField1.setText("");

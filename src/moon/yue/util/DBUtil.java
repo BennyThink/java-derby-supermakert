@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Database manipulate class
  * @author Benny~
  */
 public class DBUtil {
@@ -38,11 +38,13 @@ public class DBUtil {
              * 取消对我的注释来Run Everywhere而不用带着数据库目录
              * 
             sql.execute("create table product(pID char(10) primary key, pName char(20),"
-                + "pProducer char(20),pOrigin char(10),pDate char(20),pPrice1 char(20),"
-                + "pPrice2 char(20))");
-            sql.execute("create table admin(aID char(1),aUser char(10) primary key,aPassword char(40))");
-            sql.execute("insert into admin values('0','moon','956e3f6be3d2792bd93efc7fdb3d19941ca20e43')");
-            sql.execute("insert into admin values('1','Bunny','62221f301a1c106d1f6ec9e982c60fcab3d8aad0')");
+                    + "pProducer char(20),pOrigin char(10),pDate char(20),pPrice1 char(20),"
+                    + "pPrice2 char(20))");
+            sql.execute("create table admin(aID char(1),aUser varchar(10) primary key,aPassword varchar(140))");
+            sql.execute("insert into admin values('0','moon','1000:6c0cfefea37e6b2a21d1822a4a9e5f0bb1e37b91971e578d"
+                    + ":32907c9856b72c9190ed71f602f9138ba077af9d7df1ea85')");
+            sql.execute("insert into admin values('1','Benny','1000:871eced7f4773c952b2fae7688087af85f1886840f04c645"
+                    + ":39afda635b7a2d33553ba234866e86d96089729ec93fef60')");
           *
           */
             
