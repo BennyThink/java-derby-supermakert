@@ -48,11 +48,14 @@ public class DBUtil {
           *
           */
             
-        } catch (ClassNotFoundException e) {
-            System.out.println("加载驱动程序失败!");
-            System.exit(1);
-        } catch (SQLException ex) {
+        }  catch (SQLException ex) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("SQL Exception catched...");
+            System.exit(1);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Database driver not found...");
+            System.exit(1);
         }
 
     }
