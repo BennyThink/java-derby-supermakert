@@ -5,3 +5,11 @@ nbproject/private
 nbproject/project.properties
 nbproject/project.xml
 nbproject/
+nbproject/build-impl.xml
+market/dbex.lck
+market/db.lck
+market/log
+market/README_DO_NOT_TOUCH_FILES.txt
+market/seg0
+market/service.properties
+market/tmp
