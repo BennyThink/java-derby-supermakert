@@ -53,6 +53,27 @@ public class DBUtil {
         } catch (SQLException ex) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+        /**
+        * MySQL驱动，下载地址https://dev.mysql.com/downloads/connector/j/
+        * 需要加入jre或者作为库添加到IDE中。
+        try {         
+            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            url = "jdbc:mysql://localhost:3306/supermarket?user=root&password=root";    //这里
+            con = DriverManager.getConnection(url);
+            sql = con.createStatement();
+        } catch (ClassNotFoundException ex) {
+            System.out.println("加载驱动程序失败!");
+        } catch (InstantiationException ex) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        */
 
     }
 /**
