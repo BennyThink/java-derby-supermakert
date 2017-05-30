@@ -54,10 +54,6 @@ public class DBUtil {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("SQL Exception catched...");
             System.exit(1);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Database driver not found...");
-            System.exit(1);
         }
         
         
@@ -79,7 +75,7 @@ public class DBUtil {
         } catch (SQLException ex) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
+        **/
 
     }
 /**
