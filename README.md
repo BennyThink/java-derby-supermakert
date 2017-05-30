@@ -7,10 +7,15 @@ A java derby database demo program.
 默认登陆的账号密码是moon/***REMOVED***,Benny/***REMOVED***
 
 一些目录的说明（dist目录需要你手动构建才会有）：
-* dist中为jar文件
+* dist中为jar文件，就是可以直接双击就运行的那种。
 * dist中的javadoc为文档，你可以参考文档来“二次开发”
 * src为由NetBeans生成的源代码
 * market为数据库文件
+
+## 使用方法 ##
+推荐直接使用NetBeans打开这个工程目录，有两种方法
+1. 在NetBeans中直接加载`derby.jar`的驱动，如果你没有，那么看`essentials`目录下，但是我不晓得这个驱动的跨平台兼容性，我给你的版本是Linux x64 的Oracle-jdk
+2. 将`derby.jar`拷贝到`JAVA_HOME/jdk/jre/lib/ext`，如果你使用Linux，可能需要root权限。
 
 ## 开发工具 ##
 NetBeans + JDK8u74 (1.8.0_74)
@@ -24,7 +29,7 @@ NetBeans + JDK8u74 (1.8.0_74)
 
 所有的数据库查询操作都是使用DBUtil类中的对应方法，而不是每个事件都经历建立连接-查询步骤。
 
-美中不足的是，数据库要跟着jar（或者是NetBeans工程目录）走，解决方法也很简单，在`DBUtil`的构造方法中，取消那段注释就行了。缺点是会影响一点点程序启动的速度（需要构造嘛！）
+美中不足的是，数据库要跟着jar（或者是NetBeans工程目录）走，解决方法也很简单，在`DBUtil`的构造方法中，取消那段注释就行了。缺点是会影响一点点程序启动的速度（需要构造嘛！不过如果我用`if not exists`或许会改善一些吧）
 
 ## 数据库建表语句 ##
 ```
@@ -44,6 +49,9 @@ insert into product values('3','酸奶','统二','大连','2016-3-5','2','3');
 insert into product values('4','冰红茶','雪公司','沈阳','2015-3-5','4','5');
 insert into product values('5','冰绿茶','可口可乐公司','沈阳','2016-6-5','5','6');
 ```
+
+## 换用其他数据库 ##
+如果你想用MySQL并且讨厌死了ij（ij上下箭头乱码可以试试`derby-tools`，估计是shell的锅），那么很简单，只需要修改`***REMOVED***.util.DBUtil`中第32行-35行为MySQL的JDBC连接方式即可。不需要做更多的更改。
 
 ## 其他的一些说明 ##
 ### 隐藏的bug ###

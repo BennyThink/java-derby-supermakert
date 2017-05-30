@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Fri Apr 14 20:05:31 CST 2017:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-015b-6c5a-a2a5-00000a72ae88 
-on database directory D:\Whoa\java-derby-supermakert\market with class loader sun.misc.Launcher$ExtClassLoader@7eceeac5 
-Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_74/jre/lib/ext/derby.jar
+Sat May 13 22:37:19 CST 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-015c-023e-09fc-000009b50ca8 
+on database directory /home/benny/Git/java-derby-supermakert/market with class loader sun.misc.Launcher$AppClassLoader@6d06d69c 
+Loaded from file:/home/benny/Git/java-derby-supermakert/essentials/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_74-b02
-user.dir=D:\Whoa\java-derby-supermakert
-os.name=Windows 10
+java.runtime.version=1.8.0_121-b13
+user.dir=/home/benny/Git/java-derby-supermakert
+os.name=Linux
 os.arch=amd64
-os.version=10.0
+os.version=4.4.0-77-generic
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
