@@ -124,12 +124,12 @@ public class Login extends javax.swing.JFrame {
         //@moon:登陆代码，创建con、sql这三个对象，连接到market数据库
         //@moon:从admin表中用where做条件查询
         //@moon:加盐散列函数
-        String loginUserName = jTextField1.getText().trim();
+        String loginUserName = jTextField1.getText().replace(" ", "");
         String loginPasswd = jPasswordField1.getText();
         
         String loginAuth = "select * from admin where "
             + "aUser='" + loginUserName+"'";
-               
+        
         ResultSet LoginRs;
         try {
             LoginRs = LoginOP.select(loginAuth);

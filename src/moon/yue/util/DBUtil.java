@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 /**
  * Database manipulate class
- * @author Benny~
+ * @author moon~
  */
 public class DBUtil {
 
@@ -27,7 +27,7 @@ public class DBUtil {
  * 构造函数，负责加载驱动
  */
     public DBUtil() {
-
+        
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             url = "jdbc:derby:market;create=true";
@@ -47,7 +47,7 @@ public class DBUtil {
                     + ":39afda635b7a2d33553ba234866e86d96089729ec93fef60')");
           *
           */
-            
+           
         } catch (ClassNotFoundException e) {
             System.out.println("加载驱动程序失败!");
         } catch (SQLException ex) {
@@ -86,7 +86,7 @@ public class DBUtil {
  *          SQL异常
  */
     public ResultSet select(String sqlCommand) throws SQLException {
-
+        sqlCommand=sqlCommand.replaceAll("'or", "").replaceAll("%", "").replaceAll("--", "");
         rs = sql.executeQuery(sqlCommand);
         return rs;
 
@@ -100,6 +100,7 @@ public class DBUtil {
  */
     public void OrdinaryQuery(String sqlCommand) throws SQLException {
         //删除，修改，增加
+         sqlCommand=sqlCommand.replaceAll("'or", "").replaceAll("%", "").replaceAll("--", "");
         sql.executeUpdate(sqlCommand);
 
     }

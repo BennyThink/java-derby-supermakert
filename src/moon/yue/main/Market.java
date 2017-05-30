@@ -779,8 +779,8 @@ public class Market extends javax.swing.JFrame {
             //@moon:sha1
             //@moon:20170414 增加加盐散列
             //getSHA1 sha = new getSHA1();
-            String regUname = jTextReg.getText().trim();
-            String regPasswd = PasswordHash.createHash(jPasswdReg.getText().trim());
+            String regUname = jTextReg.getText().replace(" ", "");
+            String regPasswd = PasswordHash.createHash(jPasswdReg.getText().replace(" ", ""));
             String reg = null;
             if (jCheckBox1.isSelected()) {
                 reg = "insert into admin values('0','" + regUname + "','" + regPasswd + "')";
