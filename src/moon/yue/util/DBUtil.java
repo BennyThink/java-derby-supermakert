@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * @author moon~
  */
 public class DBUtil {
-
+    //@moon:这是以后操作数据库经常需要用到的四个变量，将其作为DBUtil私有的成员变量，更加符合OOP思想
     private String url;
     private Connection con;
     private Statement sql;
@@ -27,7 +27,7 @@ public class DBUtil {
  * 构造函数，负责加载驱动
  */
     public DBUtil() {
-        
+        //@moon:这里是DBUtil的构造函数，当你运行Login时，它的一个成员变量就来时用这个类初始化实例了。
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             url = "jdbc:derby:market;create=true";
@@ -88,6 +88,7 @@ public class DBUtil {
  *          SQL异常
  */
     public ResultSet select(String sqlCommand) throws SQLException {
+        //@moon:过滤一些特殊关键字、字符串来预防SQL注入
         sqlCommand=sqlCommand.replaceAll("'or", "").replaceAll("%", "").replaceAll("--", "");
         rs = sql.executeQuery(sqlCommand);
         return rs;
@@ -102,7 +103,10 @@ public class DBUtil {
  */
     public void OrdinaryQuery(String sqlCommand) throws SQLException {
         //删除，修改，增加
-         sqlCommand=sqlCommand.replaceAll("'or", "").replaceAll("%", "").replaceAll("--", "");
+        //@moon:将SQL操作分成两种，是因为查询需要返回结果集而删除、修改、增加不需要（或者是返回布尔值）
+        //@moon:没有使用重载是因为增删改查的参数数量、参数类型都是一致的。
+        //@moon:当然我们也可以自己加个判定参数来实现重载。
+        sqlCommand=sqlCommand.replaceAll("'or", "").replaceAll("%", "").replaceAll("--", "");
         sql.executeUpdate(sqlCommand);
 
     }

@@ -23,7 +23,7 @@ import ***REMOVED***.util.PasswordHash;
  */
 public class Login extends javax.swing.JFrame {
     
-    //@moon:成员变量
+    //@moon:Login类的成员变量，是DBUtil的实例，我们以后操作LoginOP.方法名
     private final DBUtil LoginOP = new DBUtil();
     //private final getSHA1 sha = new getSHA1();
     /**
@@ -34,8 +34,6 @@ public class Login extends javax.swing.JFrame {
         //@moon:这里是初始化代码
         //@moon:居中显示
         setLocationRelativeTo(null);
-        //@moon:这里负责加载java derby的驱动程序
-
 
     }
 
@@ -120,23 +118,22 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-
-        //@moon:登陆代码，创建con、sql这三个对象，连接到market数据库
-        //@moon:从admin表中用where做条件查询
-        //@moon:加盐散列函数
+        //@moon:登陆代码
+        
         String loginUserName = jTextField1.getText().replace(" ", "");
         String loginPasswd = jPasswordField1.getText();
-        
+        //@moon:构造查询字符串，从admin表中用where做条件查询，请注意查询条件只有用户名
         String loginAuth = "select * from admin where "
             + "aUser='" + loginUserName+"'";
         
         ResultSet LoginRs;
         try {
+            //@moon:执行LoginOP的select方法，参数是SQL语句
             LoginRs = LoginOP.select(loginAuth);
             if (LoginRs.next()) {
                 String storedPassword = LoginRs.getString(3);
                 String loginType = LoginRs.getString(1).trim();
-                //验证密码
+                //@moon:验证密码，由安全的散列盐类提供
                 if (PasswordHash.validatePassword(loginPasswd, storedPassword)) {
                     //@moon:销毁本溪窗口，使用Market类创建新的对象并显示。
                     this.dispose();

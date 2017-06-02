@@ -24,7 +24,7 @@ import ***REMOVED***.util.PasswordHash;
  * @author moon
  */
 public class Market extends javax.swing.JFrame {
-
+    //@moon: ConsoleOP是另一个DBUtil类的实例
     private final String  permission;
     private final DBUtil ConsoleOP = new DBUtil();
     
@@ -42,7 +42,6 @@ public class Market extends javax.swing.JFrame {
         //@moon:在这里“初始化”jTable
         clearStorage();
         clearInTable();
-        //logintype
         //@moon:管理员权限判断
         
         if ("0".equals(permission)) {
@@ -674,11 +673,10 @@ public class Market extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * 用空清空表
+     * 用空  清空表
      */
     private void clearInTable() {
-        //初始化jtable
-
+        //@moon:初始化jtable，实际上这种方法比较糟糕
         for (int i = 0; i <= jTable1.getRowCount() - 1; i++) {
             for (int j = 0; j < 7; j++) {
                 jTable1.setValueAt("", i, j);
@@ -687,7 +685,7 @@ public class Market extends javax.swing.JFrame {
     }
 
     /**
-     * 用空清空表
+     * 用空  清空表
      */
     private void clearStorage() {
 
@@ -700,7 +698,7 @@ public class Market extends javax.swing.JFrame {
     
     
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-       //@moon:这里是最后搞笑的啦~~
+       //@moon:这里是最后搞笑的啦，全部图片位于***REMOVED***.images那个包下
         
         if (jComboBox1.getSelectedItem() == "程序说明") {
             jLabelHelp.setText("什么程序不程序的");           
@@ -776,10 +774,9 @@ public class Market extends javax.swing.JFrame {
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
         try {                                      
             // 新增管理员
-            //@moon:sha1
-            //@moon:20170414 增加加盐散列
-            //getSHA1 sha = new getSHA1();
+            //@moon:20170414 加盐散列类
             String regUname = jTextReg.getText().replace(" ", "");
+            //@moon:创建散列盐密码
             String regPasswd = PasswordHash.createHash(jPasswdReg.getText().replace(" ", ""));
             String reg = null;
             if (jCheckBox1.isSelected()) {
@@ -797,21 +794,19 @@ public class Market extends javax.swing.JFrame {
             
             jTextReg.setText("");
             jPasswdReg.setText("");
-            
-            
+                      
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidKeySpecException ex) {
             Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-
     }//GEN-LAST:event_jButton6MouseClicked
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
         // 删除商品
         //删掉jTable中选定行
-
+        //@moon:首先要确定选中的试试哪一行，使用getSelectRow方法
         if (ar.getValueAt(ar.getSelectedRow(), 0) == "") {
             JOptionPane.showMessageDialog(rootPane, "未选择", "错误", JOptionPane.WARNING_MESSAGE);
             return;
@@ -819,7 +814,7 @@ public class Market extends javax.swing.JFrame {
             int n = JOptionPane.showConfirmDialog(this, "你要删除这条记录吗", "删除提示", JOptionPane.YES_NO_OPTION);
             if (n == JOptionPane.YES_OPTION) //用户同意删除，在这里写入删除的代码！
             {
-                //删除的sql语句
+                //@moon:用getVauleAAt获得ID，构造删除语句
                 String del = "delete  from product  where pID ='" + ar.getValueAt(ar.getSelectedRow(), 0) + "'";
                 try {
                     ConsoleOP.OrdinaryQuery(del);
@@ -839,7 +834,7 @@ public class Market extends javax.swing.JFrame {
         // 查询指定商品
         //全部清空
         clearStorage();
-        String inputID = jTextField1.getText().trim();
+        String inputID = jTextField1.getText().replace(" ", "");
         String s = "select * from product  where pID ='" + inputID + "'";
         ResultSet specRs;
         try {
@@ -866,9 +861,10 @@ public class Market extends javax.swing.JFrame {
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         //@moon:修改信息，这也是最困难的部分了
-        //修改之前已经jTable已经有了内容了。所以就直接以ID为准每个都update
+        //@moon:修改之前已经jTable已经有了内容了。所以就直接以ID为准每个都update
+        //@moon:效率比较低，但是我暂时想不到啥好办法。
+        
         //在这之前检测行尾
-      
         String updateMainStr = null;
         for (int i = 0; i <= 99; i++) {
             if (ar.getValueAt(i, 0).toString() != "") {
@@ -882,8 +878,8 @@ public class Market extends javax.swing.JFrame {
                     + "',pPrice2='" + ar.getValueAt(i, 6).toString().trim()
                     + "' where pID='" + ar.getValueAt(i, 0).toString().trim() + "'";
                 try {
+                    //@moon:for debug
                     //System.out.println(updateMainStr);
-                    //数据库代码
                     ConsoleOP.OrdinaryQuery(updateMainStr);
 
                 } catch (SQLException ex) {
@@ -903,7 +899,7 @@ public class Market extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        // 显示全部的库存代码
+        //@moon:显示全部的库存代码
         int i = 0;
         String count = "xx";
         String s = "select * from product ";
@@ -937,18 +933,17 @@ public class Market extends javax.swing.JFrame {
         //jTable1.getValueAt(0, 0).toString();
         //inputLines=1是用户输入了一行。
         //jTable1.getValueAt(99, 0).toString();
-       //debug 此处存在空
+       //debug 此处存在空?? TO FIX?
        
         int inputLines = 0;
-        String[] a = new String[7];
-      
+        String[] a = new String[7];     
         String insertStr = null;
         for (int i = 0; i <= 99; i++) {
             if (jTable1.getValueAt(i, 0).toString() != "") {
                 inputLines++;
             }
         }
-        
+        //@moon:debug
         //System.out.println(inputLines + " 多少行");
         //inputLines就是5行，数值为5
         
@@ -967,8 +962,7 @@ public class Market extends javax.swing.JFrame {
                 + a[5] + "','" + a[6] + "')";
            // System.out.println("SQL语句 " + insertStr);
             try {
-                ConsoleOP.OrdinaryQuery(insertStr);
-                               
+                ConsoleOP.OrdinaryQuery(insertStr);                        
             } catch (SQLException ex) {
                 Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, ex, "出错了", JOptionPane.WARNING_MESSAGE);
@@ -992,10 +986,11 @@ public class Market extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
-        // TODO add your handling code here:
+        //@moon:显示用户、商品信息的代码
         String str = null;
         ResultSet ShowRs1;
         ResultSet ShowRs2;
+        //@moon:商品信息位于jTabbedPane中的第二列，所以当getSelectedIndex为1时，从product中查询
         if (jTabbedPane1.getSelectedIndex() == 1) {
             str = "select * from product ";
             try {
@@ -1014,7 +1009,7 @@ public class Market extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(Market.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            //@moon:当选中的是第三列时，也就是人员信息管理
         } else if (jTabbedPane1.getSelectedIndex() == 2) {
             str = "select * from admin ";
             int i = 0;
@@ -1111,8 +1106,8 @@ public class Market extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextReg;
     // End of variables declaration//GEN-END:variables
-
-    private void dbProduct() {
+    //@moon:下面这个方法可能是以前版本的遗留代码，稳妥起见，注释了吧
+    /*private void dbProduct() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    }*/
 }
