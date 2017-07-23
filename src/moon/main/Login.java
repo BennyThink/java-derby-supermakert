@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ***REMOVED***.main;
+package moon.main;
 
 import java.awt.Toolkit;
 import java.security.NoSuchAlgorithmException;
@@ -13,8 +13,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import ***REMOVED***.util.DBUtil;
-import ***REMOVED***.util.PasswordHash;
+import moon.util.DBUtil;
+import moon.util.PasswordHash;
 
 
 /**
@@ -54,7 +54,7 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("超市管理系统登录 - 阴险版");
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/moon/***REMOVED***/images/guai.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/moon/images/guai.png")));
         setResizable(false);
 
         jLabel1.setText("用户名");

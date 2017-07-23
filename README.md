@@ -2,9 +2,9 @@
 A java derby database demo program.
 **2017年5月29日更新**
 
-## 明月你先看我 ##
-选择***REMOVED***分支，至少你的英语水平应该足够看懂这个readme吧
-默认登陆的账号密码是moon/***REMOVED***,Benny/***REMOVED***
+## 账号密码 ##
+
+默认登陆的账号密码是moon/170629,Benny/161223
 
 一些目录的说明（dist目录需要你手动构建才会有）：
 * dist中为jar文件，就是可以直接双击就运行的那种。
@@ -13,19 +13,21 @@ A java derby database demo program.
 * market为数据库文件
 
 ## 使用方法 ##
-推荐直接使用NetBeans打开这个工程目录，有两种方法
+推荐直接使用NetBeans打开这个工程目录（也可以用IntelIJ的`import project`），有两种方法
 1. 在NetBeans中直接加载`derby.jar`的驱动，如果你没有，那么看`essentials`目录下，但是我不晓得这个驱动的跨平台兼容性，我给你的版本是Linux x64 的Oracle-jdk
 2. 将`derby.jar`拷贝到`JAVA_HOME/jdk/jre/lib/ext`，如果你使用Linux，可能需要root权限。
 
 ## 开发工具 ##
 NetBeans + JDK8u74 (1.8.0_74)
 
+
+
 ## 思想 ##
 我今天给它大改，改成了比较纯正的OOP模式，虽说写的不咋样，但是也算得上足够参考能让你迈出打败“见类死”的第一步。
 整个程序有三个包：
-* ***REMOVED***.images 这个包用来保存icon、图片等
-* ***REMOVED***.main   两个JFrame的主要文件
-* ***REMOVED***.util   提供数据库、加盐散列函数相关的类
+* moon.images 这个包用来保存icon、图片等
+* moon.main   两个JFrame的主要文件
+* moon.util   提供数据库、加盐散列函数相关的类
 
 所有的数据库查询操作都是使用DBUtil类中的对应方法，而不是每个事件都经历建立连接-查询步骤。
 
@@ -40,8 +42,8 @@ connect 'jdbc:derby:market;create=true';
 create table product(pID char(10) primary key, pName char(20),pProducer char(20),pOrigin char(10),pDate char(20),pPrice1 char(20),pPrice2 char(20));
 create table admin(aID char(1),aUser varchar(10) primary key,aPassword varchar(140));
 
-insert into admin values('0','moon','1000:6c0cfefea37e6b2a21d1822a4a9e5f0bb1e37b91971e578d:32907c9856b72c9190ed71f602f9138ba077af9d7df1ea85');
-insert into admin values('1','Benny','1000:871eced7f4773c952b2fae7688087af85f1886840f04c645:39afda635b7a2d33553ba234866e86d96089729ec93fef60');
+insert into admin values('0','moon','1000:d5142ed49450acc755e158b9d569c6bf3d0cc70e4864d241:2b1a33f54ff3f568ff40ff1669297773d37ae060e41418d8');
+insert into admin values('1','Benny','1000:4c6439f070da737607a1ab5b4e8ad3a06a96b923fdc92059:05aeeaebf99c3b30e50cf9d99b0e394decb841c26790ad01');
 
 insert into product values('1','康师傅牛肉面','统一','沈阳','2016-3-5','2','3');
 insert into product values('2','牛奶','蒙牛','沈阳','2016-4-5','2','4');
@@ -120,7 +122,7 @@ Don't forget to copy the database dirctory to the exact directory where the prog
 
 I cannot login/what's the default admin password?
 ====
-Default username and passowrd is moon/***REMOVED*** and Bunny/111111.<br>
+Default username and password is moon/***REMOVED*** and Bunny/111111.<br>
 Don't ask me why there's no "Benny".
 
 How could I run my own SQL command?

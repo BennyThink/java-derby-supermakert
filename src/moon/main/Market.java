@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ***REMOVED***.main;
+package moon.main;
 
 
 import java.awt.Toolkit;
@@ -15,8 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import ***REMOVED***.util.DBUtil;
-import ***REMOVED***.util.PasswordHash;
+import moon.util.DBUtil;
+import moon.util.PasswordHash;
 
 
 /**
@@ -114,7 +114,7 @@ public class Market extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("超市管理系统 - 滑稽版");
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/moon/***REMOVED***/images/huaji.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/moon/images/huaji.png")));
         setResizable(false);
 
         jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -239,7 +239,7 @@ public class Market extends javax.swing.JFrame {
             }
         });
 
-        img1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/***REMOVED***/images/5.gif"))); // NOI18N
+        img1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/images/5.gif"))); // NOI18N
         img1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 img1MouseClicked(evt);
@@ -702,19 +702,19 @@ public class Market extends javax.swing.JFrame {
         
         if (jComboBox1.getSelectedItem() == "程序说明") {
             jLabelHelp.setText("什么程序不程序的");           
-            jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/***REMOVED***/images/4.gif")));
+            jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/images/4.gif")));
             jLabel5.setText("");
         }
 
         if (jComboBox1.getSelectedItem() == "开发者") {
             jLabelHelp.setText("我是开发者");         
-            jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/***REMOVED***/images/yinxian.png")));
+            jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/images/yinxian.png")));
             jLabel5.setText("");
         }
         
         if (jComboBox1.getSelectedItem() == "其实我才是开发者") {
             jLabelHelp.setText("楼上不是开发者，Bunny - 小兔子 才是！");          
-            jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/***REMOVED***/images/guai.png")));
+            jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/images/guai.png")));
             jLabel5.setText("");
         }
 
@@ -981,7 +981,7 @@ public class Market extends javax.swing.JFrame {
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         //jPanel7.remove(jLabel5);
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/***REMOVED***/images/2.gif")));
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/moon/images/2.gif")));
         jLabel5.setText("魔法变变变！");
     }//GEN-LAST:event_jLabel5MouseClicked
 
