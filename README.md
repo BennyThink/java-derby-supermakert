@@ -14,7 +14,7 @@ A java derby database demo program.
 
 ## 使用方法 ##
 推荐直接使用NetBeans打开这个工程目录（也可以用IntelIJ的`import project`），有两种方法
-1. 在NetBeans中直接加载`derby.jar`的驱动，如果你没有，那么看`essentials`目录下，但是我不晓得这个驱动的跨平台兼容性，我给你的版本是Linux x64 的Oracle-jdk
+1. 在NetBeans中直接加载`derby.jar`的驱动，如果你没有，那么看`essentials`目录下，但是我不晓得这个驱动的跨平台兼容性，这里的版本是Linux x64 的Oracle-jdk
 2. 将`derby.jar`拷贝到`JAVA_HOME/jdk/jre/lib/ext`，如果你使用Linux，可能需要root权限。
 
 ## 开发工具 ##
@@ -23,7 +23,6 @@ NetBeans + JDK8u74 (1.8.0_74)
 
 
 ## 思想 ##
-我今天给它大改，改成了比较纯正的OOP模式，虽说写的不咋样，但是也算得上足够参考能让你迈出打败“见类死”的第一步。
 整个程序有三个包：
 * moon.images 这个包用来保存icon、图片等
 * moon.main   两个JFrame的主要文件
