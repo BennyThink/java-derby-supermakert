@@ -53,7 +53,7 @@ insert into product values('5','冰绿茶','可口可乐公司','沈阳','2016-6
 ```
 
 ## 换用其他数据库 ##
-如果你想用MySQL并且讨厌死了ij（ij上下箭头乱码可以试试`derby-tools`，估计是shell的锅），那么很简单，只需要修改`***REMOVED***.util.DBUtil`中第32行-35行为MySQL的JDBC连接方式即可。不需要做更多的更改。
+如果你想用MySQL并且讨厌死了ij（ij上下箭头乱码可以试试`derby-tools`，估计是shell的锅），那么很简单，只需要修改`moon.util.DBUtil`中第32行-35行为MySQL的JDBC连接方式即可。不需要做更多的更改。
 
 ## 其他的一些说明 ##
 ### 隐藏的bug ###
@@ -122,12 +122,11 @@ Don't forget to copy the database dirctory to the exact directory where the prog
 
 I cannot login/what's the default admin password?
 ====
-Default username and password is moon/***REMOVED*** and Bunny/111111.<br>
-Don't ask me why there's no "Benny".
+Default username and password is moon/170629 and Bunny/161223.<br>
 
 How could I run my own SQL command?
 ====
-Quiet simply, in `your_path\jdk1.8.0_74\db\bin` you could see a `ij.bat`.<br>
+Quiet simply, in `your_path\jdkx.x\db\bin` you could see a `ij.bat`.<br>
 Run it under your database directory (strongly advise to add this path to Environment Path).<br>
 Then, type:<br>
 `connect 'jdbc:derby:market;create=true';`<br>

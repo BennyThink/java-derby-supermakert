@@ -698,7 +698,7 @@ public class Market extends javax.swing.JFrame {
     
     
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-       //@moon:这里是最后搞笑的啦，全部图片位于***REMOVED***.images那个包下
+       //@moon:这里是最后搞笑的啦，全部图片位于moon.images那个包下
         
         if (jComboBox1.getSelectedItem() == "程序说明") {
             jLabelHelp.setText("什么程序不程序的");           
