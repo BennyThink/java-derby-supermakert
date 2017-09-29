@@ -85,7 +85,21 @@ insert into product values('5','冰绿茶','可口可乐公司','沈阳','2016-6
 
 由于我使用了和其他人不太一样的验证登录语句：`select * from admin where aUser='2'`，然后再从结果集中取出对应的密码列，使用`PasswordHash`类进行验证，再算上JDBC不允许使用分号，这样也基本上很难进行注入了，至少我是没想到，因为where字句下只能有条件嘛！尽管如此，还是处理下吧，而我不想使用`PreparedStatement`因为这要进行大改，所以我直接在`DBUtil.java`中过滤下特殊字符就好了，顶多抛出异常而已，不过说真的，我的这个过滤方法比较令人费解，哈哈！
 
+## 截图 ##
 
+![](pic/1.jpg)
+
+
+![](pic/2.jpg)
+
+
+![](pic/3.jpg)
+
+
+![](pic/4.jpg)
+
+
+![](pic/5.jpg)
 
 # 原始Readme #
 
